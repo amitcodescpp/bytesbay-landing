@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>BytesBay — Digital Harbor & Creative Tech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: rgba(15, 21, 34, 0.85);
+      --card-border: rgba(56, 189, 248, 0.16);
+      --card-hover: rgba(56, 189, 248, 0.35);
+      --cyan: #38bdf8;
+      --cyan-glow: rgba(56, 189, 248, 0.4);
+      --emerald: #34d399;
+      --emerald-glow: rgba(52, 211, 153, 0.3);
+      --purple: #a855f7;
+      --purple-glow: rgba(168, 85, 247, 0.3);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+      padding: 0 1.25rem 3.5rem 1.25rem;
+    }
+
+    /* Ambient atmospheric background glows */
+    .ambient-glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(130px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-1 {
+      top: -15%;
+      left: 20%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.18), transparent 70%);
+    }
+    .glow-2 {
+      top: 35%;
+      right: 15%;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.15), transparent 70%);
+    }
+
+    /* Prominent Top Navigation & Brand Header */
+    header {
+      width: 100%;
+      max-width: 980px;
+      padding: 1.75rem 0 1.25rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+    .brand-emblem {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.25));
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--cyan-glow);
+      position: relative;
+    }
+    .brand-emblem svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: var(--cyan);
+      stroke-width: 2.2;
+      filter: drop-shadow(0 0 6px var(--cyan));
+    }
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(180deg, #ffffff 30%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 24px rgba(56, 189, 248, 0.35);
+    }
+    .brand-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--cyan);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(16, 24, 39, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      backdrop-filter: blur(12px);
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+      animation: pulse 2.5s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.85); }
+    }
+
+    /* Main Container */
+    main {
+      width: 100%;
+      max-width: 980px;
+      position: relative;
+      z-index: 10;
+      margin-top: 2.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* Hero Headline */
+    .hero {
+      text-align: left;
+      padding: 0.5rem 0 1rem 0;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 0.3rem 0.7rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+    }
+    .hero h1 {
+      font-size: clamp(2.1rem, 5vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      margin-bottom: 0.85rem;
+      background: linear-gradient(180deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 650px;
+      line-height: 1.6;
+    }
+    .hero p span.handle {
+      color: var(--text-main);
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0.15rem 0.45rem;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Two-Column Responsive Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 1.75rem;
+      align-items: stretch;
+    }
+    @media (max-width: 840px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Common Card Styling */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 1.85rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+      transition: border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      border-color: var(--card-hover);
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.1);
+    }
+
+    /* SECRET KNOCK CARD */
+    .knock-card {
+      background: linear-gradient(165deg, rgba(21, 29, 48, 0.9) 0%, rgba(11, 15, 26, 0.96) 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.28);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.12);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .knocker-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0.5rem 0 1.25rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .knocker-plate {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.18), rgba(15, 23, 42, 0.95));
+      border: 2px solid rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 25px var(--cyan-glow), inset 0 0 18px rgba(56, 189, 248, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    }
+    .knocker-container:hover .knocker-plate {
+      transform: scale(1.06);
+      box-shadow: 0 0 35px var(--cyan-glow);
+    }
+    .knocker-container:active .knocker-plate {
+      transform: scale(0.95);
+    }
+
+    /* The Ring Handle */
+    .knocker-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 5.5px solid #38bdf8;
+      border-bottom-width: 8px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7), 0 0 16px var(--cyan-glow);
+      position: relative;
+      transform-origin: top center;
+      transition: transform 0.1s ease;
+    }
+    .knocker-ring::after {
+      content: '';
+      position: absolute;
+      bottom: -7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #7dd3fc;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    /* Visual Silent Knock Ripple Animation */
+    .is-knocking .knocker-ring {
+      animation: knockMotion 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes knockMotion {
+      0% { transform: rotateX(0deg); }
+      30% { transform: rotateX(-38deg) scale(0.92); }
+      70% { transform: rotateX(28deg) scale(1.06); }
+      100% { transform: rotateX(0deg); }
+    }
+
+    .knock-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.35rem;
+    }
+    .knock-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.35rem;
+      line-height: 1.5;
+      max-width: 320px;
+    }
+
+    /* Passcode Input Form */
+    .passcode-form {
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .passcode-input {
+      flex: 1;
+      background: rgba(11, 15, 26, 0.9);
+      border: 1.5px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .passcode-input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px var(--cyan-glow);
+    }
+    .passcode-input::placeholder {
+      color: var(--text-subtle);
+      font-size: 0.85rem;
+    }
+    .passcode-btn {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      border: none;
+      border-radius: 12px;
+      padding: 0 1.35rem;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+    }
+    .passcode-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
+    }
+    .passcode-btn:active {
+      transform: translateY(1px);
+    }
+
+    .feedback-msg {
+      min-height: 22px;
+      font-size: 0.82rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-subtle);
+      transition: color 0.2s ease;
+    }
+    .feedback-msg.error {
+      color: #f87171;
+    }
+    .feedback-msg.success {
+      color: var(--emerald);
+    }
+
+    .knock-hint-btn {
+      background: none;
+      border: none;
+      color: var(--text-subtle);
+      font-size: 0.78rem;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-top: 0.4rem;
+      font-family: inherit;
+    }
+    .knock-hint-btn:hover {
+      color: var(--cyan);
+    }
+
+    /* RIGHT COLUMN: Featured Card & Harbor Status */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    /* Public Showcase Card: Orbital */
+    .orbital-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .card-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+    .orbital-card h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .orbital-card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.35rem;
+    }
+    .launch-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    }
+    .launch-btn:hover {
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: var(--cyan);
+      transform: translateY(-1px);
+    }
+
+    /* Harbor Status Card (No hardware/machine specs) */
+    .harbor-card {
+      padding: 1.4rem 1.6rem;
+    }
+    .harbor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+    }
+    .harbor-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .harbor-label {
+      color: var(--text-subtle);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .harbor-val {
+      color: var(--text-main);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* THE UNLOCKED VAULT (Initially Hidden) */
+    .vault-modal {
+      display: none;
+      width: 100%;
+      background: linear-gradient(160deg, rgba(17, 24, 43, 0.96), rgba(8, 12, 22, 0.98));
+      border: 1.5px solid var(--emerald);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px var(--emerald-glow);
+      border-radius: 24px;
+      padding: 2.25rem;
+      position: relative;
+      animation: unlockFade 0.35s ease forwards;
+    }
+    @keyframes unlockFade {
+      from { opacity: 0; transform: scale(0.98) translateY(12px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .vault-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 1rem;
+    }
+    .vault-tag {
+      background: rgba(52, 211, 153, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      color: var(--emerald);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+    .relock-btn {
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text-muted);
+      border-radius: 8px;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .relock-btn:hover {
+      color: #f87171;
+      border-color: rgba(248, 113, 113, 0.4);
+    }
+    .vault-content h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.6rem;
+    }
+    .vault-content p {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.65;
+      margin-bottom: 1.4rem;
+    }
+    .lab-highlights {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1.35rem;
+      margin-bottom: 1.6rem;
+    }
+    .lab-highlights h4 {
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.85rem;
+    }
+    .lab-highlights ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+    .lab-highlights li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .lab-highlights li::before {
+      content: '▹';
+      color: var(--cyan);
+      font-weight: bold;
+    }
+
+    .ping-box {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .ping-input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      color: #fff;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .ping-input:focus {
+      border-color: var(--emerald);
+    }
+    .ping-btn {
+      background: var(--emerald);
+      color: #052e16;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      padding: 0 1.4rem;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+    }
+    .ping-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    /* Clean Footer (No location, no sound toggle) */
+    footer {
+      width: 100%;
+      max-width: 980px;
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-subtle);
+      font-size: 0.82rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    @media (max-width: 600px) {
+      footer {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glow Backgrounds -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Prominent Top Header -->
+  <header>
+    <a href="#" class="brand">
+      <div class="brand-emblem">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+          <line x1="4" y1="22" x2="4" y2="15"/>
+        </svg>
+      </div>
+      <div class="brand-info">
+        <div class="brand-title">BytesBay</div>
+        <div class="brand-badge">Digital Harbor</div>
+      </div>
+    </a>
+
+    <div class="status-badge">
+      <div class="pulse-dot"></div>
+      <span>Harbor Online</span>
+    </div>
+  </header>
+
+  <!-- Main Section -->
+  <main>
+    <!-- Hero Headline -->
+    <section class="hero">
+      <div class="hero-tag">Personal Technology Enclave</div>
+      <h1>A digital harbor for<br/>experimental software.</h1>
+      <p>
+        Building web applications, distributed systems, and creative technology. 
+        Operated by <span class="handle">AK-86</span>.
+      </p>
+    </section>
+
+    <!-- UNLOCKED VAULT (Revealed upon secret knock / passcode) -->
+    <section id="vaultModal" class="vault-modal">
+      <div class="vault-header">
+        <div class="vault-tag">● Friend Access Unlocked</div>
+        <button id="relockBtn" class="relock-btn">Lock Door</button>
+      </div>
+      <div class="vault-content">
+        <h2>Hey! Welcome to the Bay.</h2>
+        <p>
+          You cracked the knock! If you're seeing this, you're one of the few who knows AK in real life. 
+          This is my personal sandbox where I build, test, and host tools without gatekeepers.
+        </p>
+
+        <div class="lab-highlights">
+          <h4>Currently Brewing In The Bay</h4>
+          <ul>
+            <li>Real-time ambient voice models & clinical NLP pipelines.</li>
+            <li>Zero-allocation Go microservices and low-latency edge relays.</li>
+            <li>High-refresh 3D orbital geospatial recon (<a href="https://gev.bytesbay.in" target="_blank" style="color:var(--cyan); text-decoration:none; font-weight:600;">BytesBay Orbital →</a>).</li>
+            <li>Independent web experiments, tooling, and creative automation.</li>
+          </ul>
+        </div>
+
+        <p style="font-size: 0.92rem; margin-bottom: 0.5rem;">
+          <strong>Want to drop a ping or say hello?</strong>
+        </p>
+        <div class="ping-box">
+          <input type="text" id="pingMsg" class="ping-input" placeholder="Leave a note: 'Hey AK, loved the setup'..." />
+          <button id="sendPingBtn" class="ping-btn">Ring Bell</button>
+        </div>
+        <div id="pingAck" style="margin-top: 0.6rem; font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--emerald); display:none;">
+          ✓ Bell rang! AK received your ping.
+        </div>
+      </div>
+    </section>
+
+    <!-- Two-Column Grid: Public Interface -->
+    <div id="publicGrid" class="grid">
+
+      <!-- LEFT: The Secret Knock Card -->
+      <div class="card knock-card">
+        <div class="knocker-container" id="knockerTrigger" title="Click to knock!">
+          <div class="knocker-plate">
+            <div class="knocker-ring" id="knockerRing"></div>
+          </div>
+        </div>
+
+        <div class="knock-title">The Secret Knock</div>
+        <div class="knock-subtitle">
+          Tap the knocker 3 times, or enter the friend passcode if you know AK.
+        </div>
+
+        <div class="passcode-form">
+          <input 
+            type="text" 
+            id="passcodeInput" 
+            class="passcode-input" 
+            placeholder="Friend passcode..." 
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button id="knockBtn" class="passcode-btn">Unlock</button>
+        </div>
+
+        <div id="feedbackMsg" class="feedback-msg">Tap the knocker or enter the pass</div>
+        <button id="hintBtn" class="knock-hint-btn">Need a hint?</button>
+      </div>
+
+      <!-- RIGHT: Public Showcase & Harbor Overview -->
+      <div class="right-col">
+
+        <!-- Orbital Card -->
+        <div class="card orbital-card">
+          <div>
+            <div class="card-tag">Featured Public Project</div>
+            <h3>BytesBay Orbital</h3>
+            <p>
+              Planetary 3D geospatial intelligence, satellite tracking, and real-time network recon. 
+              Rendered with WebGL directly in your browser.
+            </p>
+          </div>
+          <a href="https://gev.bytesbay.in" target="_blank" class="launch-btn">
+            Launch Console
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7V17"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Harbor Status Card -->
+        <div class="card harbor-card">
+          <div class="harbor-grid">
+            <div class="harbor-item">
+              <span class="harbor-label">Harbor Status</span>
+              <span class="harbor-val" style="color:var(--emerald);">● Nominal</span>
+            </div>
+            <div class="harbor-item">
+              <span class="harbor-label">Perimeter</span>
+              <span class="harbor-val">Zero-Trust Mesh</span>
+            </div>
+            <div class="harbor-item">
+              <span class="harbor-label">Access Gate</span>
+              <span class="harbor-val">Token Gated</span>
+            </div>
+            <div class="harbor-item">
+              <span class="harbor-label">Ingress Tunnel</span>
+              <span class="harbor-val">Encrypted Edge</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Clean Footer (No location, no sound controls) -->
+  <footer>
+    <div>bytesbay.in &bull; All Systems Nominal</div>
+    <div>Operated by AK-86</div>
+  </footer>
+
+  <!-- Silent, Snappy Micro-Interactions -->
+  <script>
+    // DOM Elements
+    const knockerTrigger = document.getElementById('knockerTrigger');
+    const passcodeInput = document.getElementById('passcodeInput');
+    const knockBtn = document.getElementById('knockBtn');
+    const feedbackMsg = document.getElementById('feedbackMsg');
+    const hintBtn = document.getElementById('hintBtn');
+    const publicGrid = document.getElementById('publicGrid');
+    const vaultModal = document.getElementById('vaultModal');
+    const relockBtn = document.getElementById('relockBtn');
+    const sendPingBtn = document.getElementById('sendPingBtn');
+    const pingAck = document.getElementById('pingAck');
+
+    // Valid passcodes for friends
+    const validCodes = [
+      'coffee', 'friends', 'friend', 'ak', 'ak-86', 'ak86', 
+      'secret', 'knock', 'bay', 'bytesbay', 'harbor'
+    ];
+
+    let tapCount = 0;
+    let tapResetTimer = null;
+
+    // Trigger Visual Knock Animation (Silent, no audio)
+    function triggerKnock() {
+      knockerTrigger.classList.add('is-knocking');
+      setTimeout(() => knockerTrigger.classList.remove('is-knocking'), 300);
+
+      tapCount++;
+      clearTimeout(tapResetTimer);
+
+      if (tapCount === 1) {
+        feedbackMsg.className = 'feedback-msg';
+        feedbackMsg.textContent = 'Knock once...';
+      } else if (tapCount === 2) {
+        feedbackMsg.className = 'feedback-msg';
+        feedbackMsg.textContent = 'Knock twice...';
+      } else if (tapCount >= 3) {
+        feedbackMsg.className = 'feedback-msg success';
+        feedbackMsg.textContent = 'Triple knock recognized! Unlocking...';
+        tapCount = 0;
+        setTimeout(unlockVault, 350);
+        return;
+      }
+
+      tapResetTimer = setTimeout(() => {
+        tapCount = 0;
+        if (!vaultModal.style.display || vaultModal.style.display === 'none') {
+          feedbackMsg.className = 'feedback-msg';
+          feedbackMsg.textContent = 'Tap 3 times in rhythm, or enter passcode';
+        }
+      }, 1400);
+    }
+
+    knockerTrigger.addEventListener('click', triggerKnock);
+
+    // Verify Passcode
+    function verifyPass() {
+      const val = passcodeInput.value.trim().toLowerCase();
+      triggerKnock();
+
+      if (!val) {
+        feedbackMsg.className = 'feedback-msg error';
+        feedbackMsg.textContent = 'Enter a passcode or tap 3 times!';
+        return;
+      }
+
+      if (validCodes.includes(val)) {
+        feedbackMsg.className = 'feedback-msg success';
+        feedbackMsg.textContent = 'Passcode accepted! Opening vault...';
+        setTimeout(unlockVault, 350);
+      } else {
+        const wittyErrors = [
+          'Access denied. Nice try, bot!',
+          'Wrong pass. Did you forget our coffee order?',
+          'AK is heads-down coding. Try another key!',
+          'Incorrect pass. Friend credentials required.'
+        ];
+        const randomErr = wittyErrors[Math.floor(Math.random() * wittyErrors.length)];
+        feedbackMsg.className = 'feedback-msg error';
+        feedbackMsg.textContent = randomErr;
+      }
+    }
+
+    knockBtn.addEventListener('click', verifyPass);
+    passcodeInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') verifyPass();
+    });
+
+    // Hints
+    const hints = [
+      "Hint: Try entering 'coffee' or 'ak-86'",
+      "Hint: Or just tap the knocker ring 3 times in rhythm!",
+      "Hint: Try 'friends' or 'harbor'"
+    ];
+    let hintIdx = 0;
+    hintBtn.addEventListener('click', () => {
+      feedbackMsg.className = 'feedback-msg';
+      feedbackMsg.textContent = hints[hintIdx % hints.length];
+      hintIdx++;
+    });
+
+    // Vault Unlock / Relock
+    function unlockVault() {
+      publicGrid.style.display = 'none';
+      vaultModal.style.display = 'block';
+      window.scrollTo({ top: vaultModal.offsetTop - 50, behavior: 'smooth' });
+    }
+
+    relockBtn.addEventListener('click', () => {
+      vaultModal.style.display = 'none';
+      publicGrid.style.display = 'grid';
+      passcodeInput.value = '';
+      feedbackMsg.className = 'feedback-msg';
+      feedbackMsg.textContent = 'Vault secured. Knock again anytime.';
+    });
+
+    // Ring Bell / Ping
+    sendPingBtn.addEventListener('click', () => {
+      pingAck.style.display = 'block';
+      sendPingBtn.disabled = true;
+      sendPingBtn.style.opacity = '0.5';
+      sendPingBtn.textContent = 'Rang!';
+    });
+  </script>
+</body>
+</html>
