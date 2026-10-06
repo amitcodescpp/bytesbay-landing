@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IPD Medicine Charting & e-MAR — Material Design (Google Fonts)</title>
+  <title>IPD Medicine Charting & e-MAR — Soft Tonal Material Design</title>
   
   <!-- Google Fonts: Roboto & Roboto Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -16,445 +16,487 @@
     body {
       font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background-color: #f8fafc;
-      color: #1e293b;
+      color: #334155;
+      -webkit-font-smoothing: antialiased;
     }
     .font-mono-num {
       font-family: 'Roboto Mono', monospace;
     }
-    /* Sticky drug column with clean Material elevation */
+    
+    /* Low-Contrast M3 Surface Card */
+    .m3-surface {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+    
+    /* Sticky Drug Column with Hairline Boundary */
     .sticky-drug-col {
       position: sticky;
       left: 0;
       background-color: #ffffff;
       z-index: 20;
-      box-shadow: 4px 0 10px -2px rgba(0, 0, 0, 0.08);
+      border-right: 1px solid #e2e8f0;
+      box-shadow: 2px 0 6px -2px rgba(0, 0, 0, 0.03);
     }
-    /* Material 3 Elevation & Badges */
-    .m3-card {
-      background-color: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+    
+    /* Dose Cards - Low Contrast Soft Tonal Surfaces (No High Contrast Borders) */
+    .m3-dose-card {
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 11px;
+      transition: background-color 0.15s ease;
+      cursor: pointer;
+      user-select: none;
     }
-    .m3-cell-card {
-      border-radius: 8px;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-      transition: all 0.15s ease-in-out;
+    .m3-dose-card:hover {
+      filter: brightness(0.98);
     }
-    .m3-cell-card:hover {
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
-      transform: translateY(-1px);
+    
+    /* Given: Soft Sage (Low-glare, calming) */
+    .tone-given {
+      background-color: #f1f8f3;
+      border: 1px solid #dceee2;
+      color: #27623a;
     }
-    .m3-transition-banner {
-      background: linear-gradient(135deg, #0b57d0 0%, #1a73e8 100%);
-      color: #ffffff;
+    
+    /* Held: Soft Linen / Warm Sand */
+    .tone-held {
+      background-color: #fefaf2;
+      border: 1px solid #f8eccf;
+      color: #7d5313;
     }
-    .m3-taper-banner {
-      background: linear-gradient(135deg, #00796b 0%, #009688 100%);
-      color: #ffffff;
+    
+    /* Refused: Soft Terracotta / Dusty Rose */
+    .tone-refused {
+      background-color: #fdf5f5;
+      border: 1px solid #f8dbdc;
+      color: #8c3235;
     }
-    .m3-high-alert-banner {
-      background: linear-gradient(135deg, #b3261e 0%, #dc2626 100%);
-      color: #ffffff;
+    
+    /* Missed / Delayed: Soft Heather / Lavender */
+    .tone-missed {
+      background-color: #f9f5fc;
+      border: 1px solid #ecdff7;
+      color: #65368a;
+    }
+    
+    /* Due / Active Now: Soft Periwinkle */
+    .tone-due {
+      background-color: #eff5fc;
+      border: 1px solid #d1e2f9;
+      color: #1e5296;
+    }
+    
+    /* Scheduled / Future: Off-White Minimalist */
+    .tone-scheduled {
+      background-color: #fbfcfd;
+      border: 1px solid #e6ecf2;
+      color: #64748b;
+      cursor: default;
+    }
+    .tone-scheduled:hover {
+      filter: none;
+    }
+
+    /* Soft In-Row Transition Tag */
+    .tone-transition-tag {
+      background-color: #f0f6fd;
+      border: 1px solid #d4e4fa;
+      color: #1e5296;
     }
   </style>
 </head>
 <body class="p-3 sm:p-5 min-h-screen">
 
-  <div class="max-w-7xl mx-auto space-y-4">
+  <div class="max-w-7xl mx-auto space-y-3">
 
-    <!-- TOP PATIENT HEADER (Material 3 Banner) -->
-    <div class="m3-card p-4 flex flex-wrap items-center justify-between gap-4">
+    <!-- TOP PATIENT HEADER (M3 Low-Contrast Demographics) -->
+    <div class="m3-surface p-3.5 flex flex-wrap items-center justify-between gap-3 text-xs">
       <div class="flex items-center gap-5 flex-wrap">
         <div>
-          <span class="text-[11px] text-slate-400 font-bold uppercase tracking-wider block">Patient Demographics</span>
-          <span class="text-base font-extrabold text-slate-900">Mr. Anand Verma (62y / M)</span>
-          <span class="text-xs text-slate-500 block font-mono-num">UHID: 10884920 • IPD-2026-1142</span>
+          <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider block">Patient</span>
+          <span class="text-sm font-semibold text-slate-800">Mr. Anand Verma (62y / M)</span>
+          <span class="text-[11px] text-slate-400 block font-mono-num">UHID: 10884920 • IPD-2026-1142</span>
         </div>
-        <div class="border-l border-slate-300 pl-4">
-          <span class="text-[11px] text-slate-400 font-bold uppercase tracking-wider block">Ward & Bed</span>
-          <span class="text-sm font-extrabold text-blue-700">ICU Step-Down / Bed 304</span>
-          <span class="text-xs text-slate-500 block">Admitted: Oct 03, 2026 (Day 4)</span>
+        <div class="border-l border-slate-200 pl-4">
+          <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider block">Location</span>
+          <span class="font-medium text-slate-700">ICU Step-Down / Bed 304</span>
+          <span class="text-[11px] text-slate-400 block">Admitted: Oct 03, 2026 (Day 4)</span>
         </div>
-        <div class="border-l border-slate-300 pl-4 hidden md:block">
-          <span class="text-[11px] text-slate-400 font-bold uppercase tracking-wider block">Attending Consultant</span>
-          <span class="text-sm font-bold text-slate-800">Dr. A. K. Mehra (Cardiology / Internal Med)</span>
-          <span class="text-xs text-slate-500 block">Severe CAP, Type 2 DM, HTN</span>
+        <div class="border-l border-slate-200 pl-4 hidden md:block">
+          <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider block">Consultant</span>
+          <span class="font-medium text-slate-700">Dr. A. K. Mehra (Cardiology / Int. Med)</span>
+          <span class="text-[11px] text-slate-400 block">Severe CAP, Type 2 DM, HTN</span>
         </div>
-        <div class="border-l border-slate-300 pl-4 hidden lg:block">
-          <span class="text-[11px] text-slate-400 font-bold uppercase tracking-wider block">Vitals (12:00 PM)</span>
-          <span class="text-xs font-semibold text-slate-700 block font-mono-num">
-            BP: <span class="text-amber-700 font-bold">96/60</span> • HR: 84 • SpO2: 97% • GMR: 168
+        <div class="border-l border-slate-200 pl-4 hidden lg:block">
+          <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider block">Vitals (12:00 PM)</span>
+          <span class="text-[11px] font-normal text-slate-600 block font-mono-num">
+            BP: <span class="text-amber-700 font-medium">96/60</span> • HR: 84 • SpO2: 97% • GMR: 168
           </span>
         </div>
       </div>
 
-      <!-- Material Status Chips -->
+      <!-- Allergy Alert (Low-contrast soft chip) -->
       <div class="flex items-center gap-2">
-        <div class="bg-rose-50 border border-rose-300 rounded-lg px-3 py-1.5 flex items-center gap-2 shadow-xs">
-          <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-ping"></span>
+        <div class="bg-rose-50/70 border border-rose-200/80 rounded-lg px-2.5 py-1 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
           <div>
-            <div class="text-[10px] font-extrabold text-rose-700 uppercase tracking-wide">Allergy Alert</div>
-            <div class="text-xs font-bold text-rose-900">Penicillin & Ciprofloxacin</div>
+            <div class="text-[9px] font-medium text-rose-700 uppercase tracking-wide">Allergy Alert</div>
+            <div class="text-[11px] font-medium text-rose-800">Penicillin & Ciprofloxacin</div>
           </div>
         </div>
-        <div class="bg-slate-100 border border-slate-300 rounded-lg px-3 py-1.5 text-center hidden sm:block">
-          <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Code Status</div>
-          <div class="text-xs font-black text-slate-800">FULL CODE</div>
+        <div class="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-center hidden sm:block">
+          <div class="text-[9px] font-medium text-slate-400 uppercase tracking-wide">Code</div>
+          <div class="text-[11px] font-medium text-slate-700">FULL CODE</div>
         </div>
       </div>
     </div>
 
-    <!-- MATERIAL NAVIGATION & ACTION BAR -->
-    <div class="m3-card p-3 flex flex-wrap items-center justify-between gap-3 text-xs">
-      <!-- Day Pager & Date Indicator -->
+    <!-- NAVIGATION & ACTION BAR -->
+    <div class="m3-surface px-3.5 py-2 flex flex-wrap items-center justify-between gap-2.5 text-xs">
       <div class="flex items-center gap-2">
-        <button class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-300 font-semibold rounded-lg text-slate-700 transition">
-          ◀ Prev Days
+        <button class="px-2.5 py-1 bg-white hover:bg-slate-50 border border-slate-200 font-medium rounded-md text-slate-600 transition">
+          ◀ Prev
         </button>
-        <span class="font-extrabold text-slate-900 bg-slate-100 px-3.5 py-1.5 rounded-lg border border-slate-300">
-          Viewing: Day 1 (Oct 03) — Day 4: Today (Oct 06)
+        <span class="font-medium text-slate-700 bg-slate-50 px-3 py-1 rounded-md border border-slate-200/80">
+          Day 1 (Oct 03) — Day 4: Today (Oct 06)
         </span>
-        <button class="px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-300 hover:bg-blue-100 font-bold rounded-lg transition">
+        <button class="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-medium rounded-md transition">
           Jump to Today
         </button>
       </div>
 
-      <!-- Action Buttons -->
       <div class="flex items-center gap-2">
-        <button onclick="openPrescribeModal()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-xs flex items-center gap-1.5 transition">
-          <span>+ Prescribe Medicine</span>
+        <button onclick="openPrescribeModal()" class="px-3 py-1 bg-teal-700 hover:bg-teal-800 text-white font-medium rounded-md shadow-xs flex items-center gap-1 transition">
+          <span>+ Prescribe</span>
         </button>
-        <button onclick="alert('Generating NABH Standard Treatment Sheet PDF with Doctor Orders & Nurse Initials Table...')" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-lg shadow-xs flex items-center gap-1.5 transition">
-          <span>🖨 Print Bedside MAR</span>
+        <button onclick="alert('Generating NABH Standard Treatment Sheet PDF with Doctor Orders & Nurse Initials Table...')" class="px-3 py-1 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-md shadow-xs flex items-center gap-1 transition">
+          <span>🖨 Print MAR</span>
         </button>
       </div>
     </div>
 
-    <!-- SECTION SWITCHER TABS (Material Design Tonal Chips) -->
-    <div class="flex items-center gap-2 overflow-x-auto text-xs font-bold pb-1">
-      <button onclick="switchTab('multi-day')" id="tab-multi-day" class="px-4 py-2 rounded-xl bg-blue-700 text-white shadow-sm flex items-center gap-2">
-        <span>📅 1. Scheduled Multi-Day Grid</span>
-        <span class="bg-blue-800 text-[10px] px-2 py-0.5 rounded-full font-semibold">Active Matrix</span>
+    <!-- SECTION SWITCHER TABS -->
+    <div class="flex items-center gap-1.5 overflow-x-auto text-xs font-medium pb-0.5">
+      <button onclick="switchTab('multi-day')" id="tab-multi-day" class="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-300 text-slate-800 font-medium shadow-xs flex items-center gap-1.5">
+        <span>📅 Scheduled Multi-Day Grid</span>
+        <span class="bg-slate-200 text-slate-700 text-[10px] px-1.5 py-0.2 rounded-full font-medium">Active</span>
       </button>
-      <button onclick="switchTab('infusions')" id="tab-infusions" class="px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center gap-2">
-        <span>💧 2. Continuous IV Infusions</span>
-        <span class="bg-slate-200 text-slate-700 text-[10px] px-2 py-0.5 rounded-full font-semibold">2 Running</span>
+      <button onclick="switchTab('infusions')" id="tab-infusions" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-1.5">
+        <span>💧 Continuous IV Infusions</span>
+        <span class="bg-slate-100 text-slate-600 text-[10px] px-1.5 py-0.2 rounded-full">2</span>
       </button>
-      <button onclick="switchTab('prn-stat')" id="tab-prn-stat" class="px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center gap-2">
-        <span>⚡ 3. PRN / SOS & STAT Orders</span>
-        <span class="bg-amber-100 text-amber-900 text-[10px] px-2 py-0.5 rounded-full font-semibold">Alerts Active</span>
+      <button onclick="switchTab('prn-stat')" id="tab-prn-stat" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-1.5">
+        <span>⚡ PRN / SOS & STAT</span>
+        <span class="bg-slate-100 text-slate-600 text-[10px] px-1.5 py-0.2 rounded-full">Active</span>
       </button>
-      <button onclick="switchTab('verbal')" id="tab-verbal" class="px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center gap-2">
-        <span>📞 4. Telephone / Verbal Orders</span>
-        <span class="bg-amber-100 text-amber-900 text-[10px] px-2 py-0.5 rounded-full font-semibold">1 Pending Sign</span>
+      <button onclick="switchTab('verbal')" id="tab-verbal" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-1.5">
+        <span>📞 Telephone Orders</span>
+        <span class="bg-slate-100 text-slate-600 text-[10px] px-1.5 py-0.2 rounded-full">1</span>
       </button>
-      <button onclick="switchTab('discontinued')" id="tab-discontinued" class="px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center gap-2">
-        <span>🚫 5. Discontinued & ADR Log</span>
-        <span class="bg-rose-100 text-rose-900 text-[10px] px-2 py-0.5 rounded-full font-semibold">Allergy Preserved</span>
+      <button onclick="switchTab('discontinued')" id="tab-discontinued" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-1.5">
+        <span>🚫 Discontinued Log</span>
       </button>
     </div>
 
     <!-- ==================== TAB 1: SCHEDULED MULTI-DAY GRID ==================== -->
-    <div id="view-multi-day" class="space-y-4">
+    <div id="view-multi-day" class="space-y-2.5">
 
-      <!-- High-Contrast Legend Bar -->
-      <div class="m3-card px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
-        <span class="font-bold text-slate-700">Dose Administration Status Legend:</span>
-        <div class="flex items-center gap-4 flex-wrap font-semibold">
-          <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded bg-emerald-500 border border-emerald-600 inline-block"></span> <strong class="text-emerald-900">Given</strong></span>
-          <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded bg-amber-400 border border-amber-500 inline-block"></span> <strong class="text-amber-900">Held (Clinical Hold)</strong></span>
-          <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded bg-rose-500 border border-rose-600 inline-block"></span> <strong class="text-rose-900">Refused</strong></span>
-          <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded bg-purple-500 border border-purple-600 inline-block"></span> <strong class="text-purple-900">Missed (Scan Delay)</strong></span>
-          <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded bg-blue-100 border-2 border-blue-600 inline-block"></span> <strong class="text-blue-900">Due / Scheduled</strong></span>
+      <!-- Calm Muted Legend Bar -->
+      <div class="m3-surface px-3 py-1.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <span class="text-slate-400 font-medium text-[11px]">Legend:</span>
+        <div class="flex items-center gap-3.5 flex-wrap text-[11px] text-slate-600">
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-emerald-500/80 inline-block"></span> Given</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-amber-400 inline-block"></span> Held (Clinical reason)</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-rose-400 inline-block"></span> Refused</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-purple-400 inline-block"></span> Missed / Delayed</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded border border-blue-300 bg-blue-50 inline-block"></span> Due</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded border border-slate-200 bg-slate-50 inline-block"></span> Scheduled</span>
         </div>
       </div>
 
-      <!-- MAIN MULTI-DAY TABLE (High Contrast Borders & Clear Dividers) -->
-      <div class="m3-card overflow-hidden">
+      <!-- MAIN MULTI-DAY TABLE (Uniform White Body, Hairline Dividers) -->
+      <div class="m3-surface overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse text-xs">
             <thead>
-              <tr class="bg-slate-100 border-b-2 border-slate-300 text-slate-800">
-                <th class="py-3 px-4 font-black w-80 sticky-drug-col bg-slate-100 border-r border-slate-300">
-                  Medication & Order Specification
+              <tr class="bg-slate-50/70 border-b border-slate-200 text-slate-600">
+                <th class="py-2.5 px-3 font-semibold w-72 sticky-drug-col">
+                  Medication & Regimen
                 </th>
-                <th class="py-3 px-3 text-center border-r border-slate-300 w-56 bg-slate-100">
-                  <div class="font-black text-slate-900 text-sm">Day 1 (Oct 03)</div>
-                  <div class="text-[11px] text-slate-500 font-medium">Admission Day</div>
+                <th class="py-2.5 px-3 text-center border-r border-slate-200/70 w-52">
+                  <div class="font-medium text-slate-800">Day 1 (Oct 03)</div>
+                  <div class="text-[10px] text-slate-400 font-normal">Admission</div>
                 </th>
-                <th class="py-3 px-3 text-center border-r border-slate-300 w-56 bg-slate-100">
-                  <div class="font-black text-slate-900 text-sm">Day 2 (Oct 04)</div>
-                  <div class="text-[11px] text-slate-500 font-medium">Stabilization</div>
+                <th class="py-2.5 px-3 text-center border-r border-slate-200/70 w-52">
+                  <div class="font-medium text-slate-800">Day 2 (Oct 04)</div>
+                  <div class="text-[10px] text-slate-400 font-normal">Stabilization</div>
                 </th>
-                <th class="py-3 px-3 text-center border-r border-slate-300 w-64 bg-blue-50/70 border-t-2 border-t-blue-600">
-                  <div class="font-black text-blue-900 text-sm">Day 3 (Oct 05)</div>
-                  <div class="text-[11px] text-blue-700 font-bold">⚡ Modification Day</div>
+                <th class="py-2.5 px-3 text-center border-r border-slate-200/70 w-60">
+                  <div class="font-medium text-slate-800">Day 3 (Oct 05)</div>
+                  <div class="text-[10px] text-blue-700 font-medium">⚡ Frequency Updated</div>
                 </th>
-                <th class="py-3 px-3 text-center w-64 bg-emerald-50/70 border-t-2 border-t-emerald-600">
-                  <div class="font-black text-emerald-900 text-sm">Day 4: Today (Oct 06)</div>
-                  <div class="text-[11px] text-emerald-700 font-bold">Active Administration</div>
+                <th class="py-2.5 px-3 text-center w-60">
+                  <div class="font-medium text-slate-800">Day 4: Today (Oct 06)</div>
+                  <div class="text-[10px] text-teal-700 font-medium">Active Doses</div>
                 </th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-300">
+            <tbody class="divide-y divide-slate-100 bg-white">
 
               <!-- ROW 1: Augmentin (Changed from BD to TDS on Day 3) -->
-              <tr class="hover:bg-slate-50/60 transition">
-                <td class="p-3.5 sticky-drug-col bg-white border-r border-slate-300">
-                  <div class="font-extrabold text-slate-900 text-sm">Tab Augmentin 625mg</div>
-                  <div class="text-slate-600 text-xs">Amoxicillin + Clavulanic Acid • Oral</div>
+              <tr class="hover:bg-slate-50/50 transition">
+                <td class="p-3 sticky-drug-col">
+                  <div class="font-semibold text-slate-900 text-sm">Tab Augmentin 625mg</div>
+                  <div class="text-slate-500 text-xs">Amoxicillin + Clavulanate • Oral</div>
                   <div class="mt-1 flex items-center gap-1.5 flex-wrap">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-100 text-purple-800 border border-purple-200">Antibiotic</span>
-                    <span class="text-slate-400">|</span>
-                    <span class="text-slate-600 font-medium text-[11px]">Instructions: After Meals</span>
+                    <span class="px-1.5 py-0.2 rounded text-[10px] font-medium bg-purple-50 text-purple-700 border border-purple-200/60">Antibiotic</span>
+                    <span class="text-slate-300">|</span>
+                    <span class="text-slate-400 text-[11px]">After meals</span>
                   </div>
-                  <div class="mt-1.5">
-                    <button onclick="openModifyModal('Tab Augmentin 625mg', 'TDS')" class="text-blue-700 hover:text-blue-900 font-bold text-[11px] underline">
-                      Modify Order / Frequency
+                  <div class="mt-1">
+                    <button onclick="openModifyModal('Tab Augmentin 625mg', 'TDS')" class="text-blue-600 hover:text-blue-800 text-[11px] font-medium underline">
+                      Modify Order
                     </button>
                   </div>
                 </td>
 
                 <!-- Day 1 BD -->
-                <td class="p-2.5 border-r border-slate-300 align-top space-y-2">
-                  <div class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider text-center">Freq: BD (2 Doses)</div>
-                  <div onclick="showDoseInfo('Augmentin 625mg', '08:00', 'Given 08:05 AM', 'Nurse Rita M.', 'Taken with water')" class="cursor-pointer m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between items-center font-bold text-emerald-950 font-mono-num">
-                      <span class="text-xs">08:00 AM</span>
-                      <span class="text-emerald-800 text-[11px]">✓ Given</span>
+                <td class="p-2 border-r border-slate-100 align-top space-y-1.5">
+                  <div class="text-[10px] font-medium text-slate-400 text-center">BD (08:00, 20:00)</div>
+                  <div onclick="showDoseInfo('Augmentin 625mg', '08:00', 'Given 08:05 AM', 'Nurse Rita M.', 'Taken with water')" class="m3-dose-card tone-given">
+                    <div class="flex justify-between items-center font-mono-num text-[11px]">
+                      <span>08:00 AM</span>
+                      <span>✓ Given</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">08:05 • Nurse Rita</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">08:05 • Nurse Rita</div>
                   </div>
-                  <div onclick="showDoseInfo('Augmentin 625mg', '20:00', 'Given 20:10 PM', 'Nurse Kevin D.', '')" class="cursor-pointer m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between items-center font-bold text-emerald-950 font-mono-num">
-                      <span class="text-xs">20:00 PM</span>
-                      <span class="text-emerald-800 text-[11px]">✓ Given</span>
+                  <div onclick="showDoseInfo('Augmentin 625mg', '20:00', 'Given 20:10 PM', 'Nurse Kevin D.', '')" class="m3-dose-card tone-given">
+                    <div class="flex justify-between items-center font-mono-num text-[11px]">
+                      <span>20:00 PM</span>
+                      <span>✓ Given</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">20:10 • Nurse Kevin</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">20:10 • Nurse Kevin</div>
                   </div>
                 </td>
 
                 <!-- Day 2 BD -->
-                <td class="p-2.5 border-r border-slate-300 align-top space-y-2">
-                  <div class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider text-center">Freq: BD (2 Doses)</div>
-                  <div onclick="showDoseInfo('Augmentin 625mg', '08:00', 'Given 08:12 AM', 'Nurse Rita M.', '')" class="cursor-pointer m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between items-center font-bold text-emerald-950 font-mono-num">
-                      <span class="text-xs">08:00 AM</span>
-                      <span class="text-emerald-800 text-[11px]">✓ Given</span>
+                <td class="p-2 border-r border-slate-100 align-top space-y-1.5">
+                  <div class="text-[10px] font-medium text-slate-400 text-center">BD (08:00, 20:00)</div>
+                  <div onclick="showDoseInfo('Augmentin 625mg', '08:00', 'Given 08:12 AM', 'Nurse Rita M.', '')" class="m3-dose-card tone-given">
+                    <div class="flex justify-between items-center font-mono-num text-[11px]">
+                      <span>08:00 AM</span>
+                      <span>✓ Given</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">08:12 • Nurse Rita</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">08:12 • Nurse Rita</div>
                   </div>
-                  <div onclick="showDoseInfo('Augmentin 625mg', '20:00', 'Given 20:05 PM', 'Nurse Kevin D.', '')" class="cursor-pointer m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between items-center font-bold text-emerald-950 font-mono-num">
-                      <span class="text-xs">20:00 PM</span>
-                      <span class="text-emerald-800 text-[11px]">✓ Given</span>
+                  <div onclick="showDoseInfo('Augmentin 625mg', '20:00', 'Given 20:05 PM', 'Nurse Kevin D.', '')" class="m3-dose-card tone-given">
+                    <div class="flex justify-between items-center font-mono-num text-[11px]">
+                      <span>20:00 PM</span>
+                      <span>✓ Given</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">20:05 • Nurse Kevin</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">20:05 • Nurse Kevin</div>
                   </div>
                 </td>
 
                 <!-- Day 3 TRANSITION DAY (BD -> TDS) -->
-                <td class="p-2.5 border-r border-slate-300 bg-blue-50/20 align-top space-y-2">
-                  <!-- Material Transition Banner -->
-                  <div class="m3-transition-banner rounded-lg p-2 shadow-xs text-[11px]">
-                    <div class="flex items-center gap-1 font-black">
+                <td class="p-2 border-r border-slate-100 align-top space-y-1.5">
+                  <!-- Discreet In-Row Transition Tag -->
+                  <div class="tone-transition-tag rounded px-2 py-1 text-[10px]">
+                    <div class="font-medium flex items-center gap-1">
                       <span>⚡</span>
-                      <span>Freq Modified: BD ➔ TDS</span>
+                      <span>Freq updated: BD ➔ TDS</span>
                     </div>
-                    <div class="text-blue-100 text-[10px] mt-0.5">by Dr. Mehra on Oct 05 at 10:30 AM</div>
+                    <div class="text-blue-500 text-[9px]">by Dr. Mehra at 10:30 AM</div>
                   </div>
 
-                  <div onclick="showDoseInfo('Augmentin 625mg', '08:00', 'Given 08:10 AM', 'Nurse Rita M.', 'Morning dose')" class="cursor-pointer m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between items-center font-bold text-emerald-950 font-mono-num">
-                      <span class="text-xs">08:00 AM</span>
-                      <span class="text-emerald-800 text-[11px]">✓ Given</span>
+                  <div onclick="showDoseInfo('Augmentin 625mg', '08:00', 'Given 08:10 AM', 'Nurse Rita M.', 'Old BD line')" class="m3-dose-card tone-given">
+                    <div class="flex justify-between items-center font-mono-num text-[11px]">
+                      <span>08:00 AM</span>
+                      <span>✓ Given</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">08:10 • Nurse Rita (Old BD line)</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">08:10 • Old BD Line</div>
                   </div>
 
                   <!-- New Afternoon TDS slot (Held for Scan) -->
-                  <div onclick="showDoseInfo('Augmentin 625mg', '14:00', 'HELD (Withheld)', 'Nurse Pooja S.', 'NPO for scheduled abdominal ultrasound')" class="cursor-pointer m3-cell-card bg-amber-50 border-2 border-amber-400 p-2">
-                    <div class="flex justify-between items-center font-bold text-amber-950 font-mono-num">
-                      <span class="text-xs">14:00 PM</span>
-                      <span class="text-amber-900 font-extrabold text-[11px]">⏸ HELD</span>
+                  <div onclick="showDoseInfo('Augmentin 625mg', '14:00', 'HELD (Withheld)', 'Nurse Pooja S.', 'NPO for scheduled ultrasound')" class="m3-dose-card tone-held">
+                    <div class="flex justify-between items-center font-mono-num text-[11px]">
+                      <span>14:00 PM</span>
+                      <span>⏸ Held</span>
                     </div>
-                    <div class="text-[11px] text-amber-800 font-bold mt-0.5">NPO for ultrasound</div>
+                    <div class="text-[10px] opacity-80 mt-0.5 font-sans">NPO for ultrasound scan</div>
                   </div>
 
-                  <div onclick="showDoseInfo('Augmentin 625mg', '20:00', 'Given 20:25 PM', 'Nurse Kevin D.', '')" class="cursor-pointer m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between items-center font-bold text-emerald-950 font-mono-num">
-                      <span class="text-xs">20:00 PM</span>
-                      <span class="text-emerald-800 text-[11px]">✓ Given</span>
+                  <div onclick="showDoseInfo('Augmentin 625mg', '20:00', 'Given 20:25 PM', 'Nurse Kevin D.', '')" class="m3-dose-card tone-given">
+                    <div class="flex justify-between items-center font-mono-num text-[11px]">
+                      <span>20:00 PM</span>
+                      <span>✓ Given</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">20:25 • Nurse Kevin</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">20:25 • Nurse Kevin</div>
                   </div>
                 </td>
 
                 <!-- Day 4 Today TDS (3 slots) -->
-                <td class="p-2.5 bg-emerald-50/15 align-top space-y-2">
-                  <div class="text-[10px] font-extrabold text-emerald-800 uppercase tracking-wider text-center">Freq: TDS (3 Doses)</div>
+                <td class="p-2 align-top space-y-1.5">
+                  <div class="text-[10px] font-medium text-slate-500 text-center">TDS (08:00, 14:00, 20:00)</div>
 
                   <!-- 08:00 Given -->
-                  <div onclick="showDoseInfo('Augmentin 625mg', '08:00', 'Given 08:05 AM', 'Nurse Rita M.', 'Taken with water')" class="cursor-pointer m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between items-center font-bold text-emerald-950 font-mono-num">
-                      <span class="text-xs">08:00 AM</span>
-                      <span class="text-emerald-800 text-[11px]">✓ Given</span>
+                  <div onclick="showDoseInfo('Augmentin 625mg', '08:00', 'Given 08:05 AM', 'Nurse Rita M.', 'Taken with water')" class="m3-dose-card tone-given">
+                    <div class="flex justify-between items-center font-mono-num text-[11px]">
+                      <span>08:00 AM</span>
+                      <span>✓ Given</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">08:05 • Nurse Rita</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">08:05 • Nurse Rita</div>
                   </div>
 
-                  <!-- 14:00 Due (Active Clickable Card) -->
-                  <div onclick="openAdminModal('Tab Augmentin 625mg', '14:00 PM', 'Oct 06')" class="cursor-pointer m3-cell-card bg-blue-50 border-2 border-blue-600 p-2 shadow-sm">
-                    <div class="flex justify-between items-center font-bold text-blue-950 font-mono-num">
-                      <span class="text-xs">14:00 PM</span>
-                      <span class="text-blue-700 font-black text-[11px] underline">⏱ Due Now</span>
+                  <!-- 14:00 Due (Soft Periwinkle) -->
+                  <div onclick="openAdminModal('Tab Augmentin 625mg', '14:00 PM', 'Oct 06')" class="m3-dose-card tone-due">
+                    <div class="flex justify-between items-center font-mono-num text-[11px]">
+                      <span>14:00 PM</span>
+                      <span class="font-medium underline">⏱ Due Now</span>
                     </div>
-                    <div class="text-[11px] text-blue-800 font-bold mt-0.5">Click to Log Administration ▶</div>
+                    <div class="text-[10px] mt-0.5 font-sans opacity-85">Click to record dose ▶</div>
                   </div>
 
                   <!-- 20:00 Scheduled -->
-                  <div class="m3-cell-card bg-slate-50 border border-slate-200 p-2 text-slate-400 font-mono-num">
-                    <div class="flex justify-between items-center font-bold">
-                      <span class="text-xs">20:00 PM</span>
-                      <span class="text-[11px]">⏱ Scheduled</span>
+                  <div class="m3-dose-card tone-scheduled font-mono-num text-[11px]">
+                    <div class="flex justify-between items-center">
+                      <span>20:00 PM</span>
+                      <span class="text-[10px] font-sans">Scheduled</span>
                     </div>
-                    <div class="text-[11px] text-slate-400 mt-0.5">Night Shift Dose</div>
                   </div>
                 </td>
               </tr>
 
               <!-- ROW 2: Prednisolone Tapering (40mg -> 20mg) -->
-              <tr class="hover:bg-slate-50/60 transition">
-                <td class="p-3.5 sticky-drug-col bg-white border-r border-slate-300">
-                  <div class="font-extrabold text-slate-900 text-sm">Tab Prednisolone Oral</div>
-                  <div class="text-slate-600 text-xs">Corticosteroid • OD Morning (08:00 AM)</div>
-                  <div class="mt-1 flex items-center gap-1.5 flex-wrap">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-teal-100 text-teal-800 border border-teal-200">Tapering Regimen</span>
-                    <span class="text-slate-500 font-medium text-[11px]">Take with breakfast</span>
+              <tr class="hover:bg-slate-50/50 transition">
+                <td class="p-3 sticky-drug-col">
+                  <div class="font-semibold text-slate-900 text-sm">Tab Prednisolone Oral</div>
+                  <div class="text-slate-500 text-xs">Corticosteroid • OD Morning (08:00 AM)</div>
+                  <div class="mt-1">
+                    <span class="px-1.5 py-0.2 rounded text-[10px] font-medium bg-teal-50 text-teal-700 border border-teal-200/70">Tapering Regimen</span>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 align-top space-y-1.5">
-                  <div class="m3-taper-banner text-center rounded-md py-0.5 font-bold text-[10px]">Step 1: 40 mg Daily</div>
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
-                      <span>08:00 AM</span><span>✓ Given 40mg</span>
+                <td class="p-2 border-r border-slate-100 align-top space-y-1">
+                  <div class="bg-teal-50/80 border border-teal-100 text-teal-800 text-center rounded py-0.5 font-medium text-[10px]">Step 1: 40 mg</div>
+                  <div class="m3-dose-card tone-given">
+                    <div class="flex justify-between font-mono-num text-[11px]">
+                      <span>08:00 AM</span><span>✓ 40mg</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">08:15 • Nurse Rita</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">08:05 • Nurse Rita</div>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 align-top space-y-1.5">
-                  <div class="m3-taper-banner text-center rounded-md py-0.5 font-bold text-[10px]">Step 1: 40 mg Daily</div>
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
-                      <span>08:00 AM</span><span>✓ Given 40mg</span>
+                <td class="p-2 border-r border-slate-100 align-top space-y-1">
+                  <div class="bg-teal-50/80 border border-teal-100 text-teal-800 text-center rounded py-0.5 font-medium text-[10px]">Step 1: 40 mg</div>
+                  <div class="m3-dose-card tone-given">
+                    <div class="flex justify-between font-mono-num text-[11px]">
+                      <span>08:00 AM</span><span>✓ 40mg</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">08:05 • Nurse Rita</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">08:05 • Nurse Rita</div>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 bg-blue-50/20 align-top space-y-1.5">
-                  <div class="m3-taper-banner text-center rounded-md py-0.5 font-bold text-[10px] ring-2 ring-teal-400">Step 2: 20 mg Daily</div>
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
-                      <span>08:00 AM</span><span>✓ Given 20mg</span>
+                <td class="p-2 border-r border-slate-100 align-top space-y-1">
+                  <div class="bg-teal-50/80 border border-teal-200 text-teal-800 text-center rounded py-0.5 font-medium text-[10px]">Step 2: 20 mg</div>
+                  <div class="m3-dose-card tone-given">
+                    <div class="flex justify-between font-mono-num text-[11px]">
+                      <span>08:00 AM</span><span>✓ 20mg</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">Taper step applied</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">Taper applied</div>
                   </div>
                 </td>
-                <td class="p-2.5 bg-emerald-50/15 align-top space-y-1.5">
-                  <div class="m3-taper-banner text-center rounded-md py-0.5 font-bold text-[10px]">Step 2: 20 mg Daily</div>
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
-                      <span>08:00 AM</span><span>✓ Given 20mg</span>
+                <td class="p-2 align-top space-y-1">
+                  <div class="bg-teal-50/80 border border-teal-100 text-teal-800 text-center rounded py-0.5 font-medium text-[10px]">Step 2: 20 mg</div>
+                  <div class="m3-dose-card tone-given">
+                    <div class="flex justify-between font-mono-num text-[11px]">
+                      <span>08:00 AM</span><span>✓ 20mg</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">08:00 • Nurse Rita</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">08:00 • Nurse Rita</div>
                   </div>
                 </td>
               </tr>
 
               <!-- ROW 3: Telmisartan (Held on Day 3 for Low BP) -->
-              <tr class="hover:bg-slate-50/60 transition">
-                <td class="p-3.5 sticky-drug-col bg-white border-r border-slate-300">
-                  <div class="font-extrabold text-slate-900 text-sm">Tab Telmisartan 40mg</div>
-                  <div class="text-slate-600 text-xs">ARB Antihypertensive • OD Morning (08:00 AM)</div>
+              <tr class="hover:bg-slate-50/50 transition">
+                <td class="p-3 sticky-drug-col">
+                  <div class="font-semibold text-slate-900 text-sm">Tab Telmisartan 40mg</div>
+                  <div class="text-slate-500 text-xs">ARB Antihypertensive • OD Morning (08:00 AM)</div>
                   <div class="mt-1">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300">Hypotension Safety Protocol</span>
+                    <span class="px-1.5 py-0.2 rounded text-[10px] font-medium bg-amber-50 text-amber-800 border border-amber-200/70">Hypotension Hold Rule</span>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given">
+                    <div class="flex justify-between font-mono-num text-[11px]">
                       <span>08:00 AM</span><span>✓ Given</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">BP: 130/84 mmHg</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">BP: 130/84 mmHg</div>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given">
+                    <div class="flex justify-between font-mono-num text-[11px]">
                       <span>08:00 AM</span><span>✓ Given</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">BP: 124/80 mmHg</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">BP: 124/80 mmHg</div>
                   </div>
                 </td>
-                <!-- Day 3 HELD -->
-                <td class="p-2.5 border-r border-slate-300 bg-blue-50/20 align-top">
-                  <div onclick="showDoseInfo('Telmisartan 40mg', '08:00 AM (Day 3)', 'HELD (Hypotension)', 'Nurse Rita M.', 'Withheld: SBP < 90 mmHg (BP 86/54). Doctor informed at 08:10 AM, advised to hold morning dose.', 'BP 86/54 mmHg', null)" class="cursor-pointer m3-cell-card bg-amber-50 border-2 border-amber-500 p-2.5">
-                    <div class="flex justify-between items-center font-bold text-amber-950 font-mono-num">
-                      <span class="text-xs">08:00 AM</span>
-                      <span class="text-amber-900 font-black text-xs">⏸ HELD</span>
+                <!-- Day 3 HELD (Soft warm sand tint) -->
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div onclick="showDoseInfo('Telmisartan 40mg', '08:00 AM (Day 3)', 'HELD (Hypotension)', 'Nurse Rita M.', 'Withheld: SBP < 90 mmHg (BP 86/54). Doctor informed at 08:10 AM, advised to hold morning dose.', 'BP 86/54 mmHg', null)" class="m3-dose-card tone-held">
+                    <div class="flex justify-between items-center font-mono-num text-[11px]">
+                      <span>08:00 AM</span>
+                      <span>⏸ Held</span>
                     </div>
-                    <div class="text-[11px] text-amber-900 font-bold mt-1">Reason: BP 86/54 mmHg</div>
-                    <div class="text-[10px] text-amber-800">Dr. Mehra advised hold</div>
+                    <div class="text-[10px] font-medium mt-0.5 font-sans">Reason: BP 86/54 mmHg</div>
+                    <div class="text-[9px] opacity-75 font-sans">Dr. Mehra advised hold</div>
                   </div>
                 </td>
-                <td class="p-2.5 bg-emerald-50/15 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
+                <td class="p-2 align-top">
+                  <div class="m3-dose-card tone-given">
+                    <div class="flex justify-between font-mono-num text-[11px]">
                       <span>08:00 AM</span><span>✓ Resumed</span>
                     </div>
-                    <div class="text-[11px] text-emerald-700 font-medium mt-0.5">BP recovered: 114/72</div>
+                    <div class="text-[10px] opacity-75 mt-0.5 font-sans">BP: 114/72 mmHg</div>
                   </div>
                 </td>
               </tr>
 
               <!-- ROW 4: Sucralfate Syrup (Refused by Patient) -->
-              <tr class="hover:bg-slate-50/60 transition">
-                <td class="p-3.5 sticky-drug-col bg-white border-r border-slate-300">
-                  <div class="font-extrabold text-slate-900 text-sm">Syp Sucralfate 10ml Oral</div>
-                  <div class="text-slate-600 text-xs">Mucosal Barrier • TDS Before Meals</div>
-                  <div class="mt-1">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-rose-100 text-rose-900 border border-rose-300">Patient Refusal Documented</span>
-                  </div>
+              <tr class="hover:bg-slate-50/50 transition">
+                <td class="p-3 sticky-drug-col">
+                  <div class="font-semibold text-slate-900 text-sm">Syp Sucralfate 10ml Oral</div>
+                  <div class="text-slate-500 text-xs">Mucosal Protectant • TDS Before Meals</div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given font-mono-num text-[11px]">
+                    <div class="flex justify-between">
                       <span>07:30 AM</span><span>✓ Given</span>
                     </div>
                   </div>
                 </td>
-                <!-- Day 2 REFUSED -->
-                <td class="p-2.5 border-r border-slate-300 align-top">
-                  <div onclick="showDoseInfo('Syp Sucralfate', '07:30 AM (Day 2)', 'REFUSED', 'Nurse Rita M.', 'Patient refused ingestion due to nausea and bitter taste. Doctor notified.', 'Vitals Normal', null)" class="cursor-pointer m3-cell-card bg-rose-50 border-2 border-rose-500 p-2">
-                    <div class="flex justify-between font-bold text-rose-950 font-mono-num">
-                      <span>07:30 AM</span><span class="text-rose-900 font-black">✕ REFUSED</span>
+                <!-- Day 2 REFUSED (Soft dusty rose) -->
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div onclick="showDoseInfo('Syp Sucralfate', '07:30 AM (Day 2)', 'REFUSED', 'Nurse Rita M.', 'Patient refused ingestion due to nausea and bitter taste. Doctor notified.', 'Vitals Normal', null)" class="m3-dose-card tone-refused">
+                    <div class="flex justify-between font-mono-num text-[11px]">
+                      <span>07:30 AM</span><span>✕ Refused</span>
                     </div>
-                    <div class="text-[11px] text-rose-900 font-bold mt-0.5">Nausea / Taste Aversion</div>
-                    <div class="text-[10px] text-rose-700">Patient declined dose</div>
+                    <div class="text-[10px] font-medium mt-0.5 font-sans">Taste Aversion</div>
+                    <div class="text-[9px] opacity-75 font-sans">Patient declined dose</div>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 bg-blue-50/20 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given font-mono-num text-[11px]">
+                    <div class="flex justify-between">
                       <span>07:30 AM</span><span>✓ Given</span>
                     </div>
-                    <div class="text-[10px] text-slate-500 mt-0.5">Mixed with cool water</div>
+                    <div class="text-[9px] opacity-75 mt-0.5 font-sans">Mixed with water</div>
                   </div>
                 </td>
-                <td class="p-2.5 bg-emerald-50/15 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
+                <td class="p-2 align-top">
+                  <div class="m3-dose-card tone-given font-mono-num text-[11px]">
+                    <div class="flex justify-between">
                       <span>07:30 AM</span><span>✓ Given</span>
                     </div>
                   </div>
@@ -462,41 +504,38 @@
               </tr>
 
               <!-- ROW 5: Ceftriaxone (Missed Due to CT Scan Delay) -->
-              <tr class="hover:bg-slate-50/60 transition">
-                <td class="p-3.5 sticky-drug-col bg-white border-r border-slate-300">
-                  <div class="font-extrabold text-slate-900 text-sm">Inj Ceftriaxone 1g IV</div>
-                  <div class="text-slate-600 text-xs">Cephalosporin • BD (10:00 AM, 22:00 PM)</div>
-                  <div class="mt-1">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-100 text-purple-900 border border-purple-300">Off-Floor Scan Delay</span>
-                  </div>
+              <tr class="hover:bg-slate-50/50 transition">
+                <td class="p-3 sticky-drug-col">
+                  <div class="font-semibold text-slate-900 text-sm">Inj Ceftriaxone 1g IV</div>
+                  <div class="text-slate-500 text-xs">Cephalosporin • BD (10:00 AM, 22:00 PM)</div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given font-mono-num text-[11px]">
+                    <div class="flex justify-between">
                       <span>10:00 AM</span><span>✓ Given</span>
                     </div>
                   </div>
                 </td>
-                <!-- Day 2 MISSED / DELAYED -->
-                <td class="p-2.5 border-r border-slate-300 align-top">
-                  <div onclick="showDoseInfo('Inj Ceftriaxone 1g', '10:00 AM (Day 2)', 'MISSED / DELAYED', 'Nurse Rita M.', 'Patient off-floor in Radiology for HRCT Chest scan (09:45–11:30). Catch-up dose administered at 11:45 AM upon return.', 'Vitals Normal', null)" class="cursor-pointer m3-cell-card bg-purple-50 border-2 border-purple-400 p-2">
-                    <div class="flex justify-between font-bold text-purple-950 font-mono-num">
-                      <span>10:00 AM</span><span class="text-purple-900 font-black">⏱ MISSED</span>
+                <!-- Day 2 MISSED / DELAYED (Soft lavender) -->
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div onclick="showDoseInfo('Inj Ceftriaxone 1g', '10:00 AM (Day 2)', 'MISSED / DELAYED', 'Nurse Rita M.', 'Patient off-floor in Radiology for HRCT Chest scan (09:45–11:30). Catch-up dose administered at 11:45 AM upon return.', 'Vitals Normal', null)" class="m3-dose-card tone-missed">
+                    <div class="flex justify-between font-mono-num text-[11px]">
+                      <span>10:00 AM</span><span>⏱ Missed</span>
                     </div>
-                    <div class="text-[11px] text-purple-900 font-bold mt-0.5">In CT Scanner</div>
-                    <div class="text-[10px] text-emerald-700 font-bold mt-0.5">Administered 11:45 upon return</div>
+                    <div class="text-[10px] font-medium mt-0.5 font-sans">In CT Scanner</div>
+                    <div class="text-[9px] opacity-75 mt-0.5 font-sans">Given 11:45 on return</div>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 bg-blue-50/20 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given font-mono-num text-[11px]">
+                    <div class="flex justify-between">
                       <span>10:00 AM</span><span>✓ Given</span>
                     </div>
                   </div>
                 </td>
-                <td class="p-2.5 bg-emerald-50/15 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
+                <td class="p-2 align-top">
+                  <div class="m3-dose-card tone-given font-mono-num text-[11px]">
+                    <div class="flex justify-between">
                       <span>10:00 AM</span><span>✓ Given</span>
                     </div>
                   </div>
@@ -504,95 +543,88 @@
               </tr>
 
               <!-- ROW 6: Regular Insulin (High Alert Dual Signoff) -->
-              <tr class="hover:bg-slate-50/60 transition bg-rose-50/15">
-                <td class="p-3.5 sticky-drug-col bg-white border-r border-slate-300">
+              <tr class="hover:bg-slate-50/50 transition">
+                <td class="p-3 sticky-drug-col">
                   <div class="flex items-center gap-1.5">
-                    <span class="m3-high-alert-banner text-[9px] font-black px-1.5 py-0.5 rounded">HIGH ALERT</span>
-                    <span class="font-extrabold text-slate-900 text-sm">Inj Human Actrapid (Insulin)</span>
+                    <span class="bg-rose-50 border border-rose-200/70 text-rose-700 text-[9px] font-medium px-1.5 py-0.2 rounded">HIGH ALERT</span>
+                    <span class="font-semibold text-slate-900 text-sm">Inj Actrapid (Insulin)</span>
                   </div>
-                  <div class="text-slate-600 text-xs">Sliding Scale SC • TDS Before Meals</div>
-                  <div class="mt-1 text-rose-800 font-extrabold text-[11px]">
-                    Requires 2-Nurse Witness Signoff
+                  <div class="text-slate-500 text-xs">Sliding Scale SC • TDS Pre-Meals</div>
+                </td>
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given">
+                    <div class="flex justify-between font-mono-num text-[11px]">
+                      <span>08:00 AM</span><span>✓ 6u</span>
+                    </div>
+                    <div class="text-[9px] opacity-75 font-sans">Sugar: 184 • Wit: Pooja</div>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
-                      <span>08:00 AM</span><span>✓ 6 Units</span>
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given">
+                    <div class="flex justify-between font-mono-num text-[11px]">
+                      <span>08:00 AM</span><span>✓ 8u</span>
                     </div>
-                    <div class="text-[10px] text-slate-600">Sugar: 184 • Witness: Nurse Pooja</div>
+                    <div class="text-[9px] opacity-75 font-sans">Sugar: 220 • Wit: Kevin</div>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
-                      <span>08:00 AM</span><span>✓ 8 Units</span>
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given">
+                    <div class="flex justify-between font-mono-num text-[11px]">
+                      <span>08:00 AM</span><span>✓ 6u</span>
                     </div>
-                    <div class="text-[10px] text-slate-600">Sugar: 220 • Witness: Nurse Kevin</div>
-                  </div>
-                </td>
-                <td class="p-2.5 border-r border-slate-300 bg-blue-50/20 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2">
-                    <div class="flex justify-between font-bold text-emerald-950 font-mono-num">
-                      <span>08:00 AM</span><span>✓ 6 Units</span>
-                    </div>
-                    <div class="text-[10px] text-slate-600">Sugar: 192 • Witness: Nurse Tina</div>
+                    <div class="text-[9px] opacity-75 font-sans">Sugar: 192 • Wit: Tina</div>
                   </div>
                 </td>
                 <!-- Day 4 Due Dual Sign -->
-                <td class="p-2.5 bg-emerald-50/15 align-top">
-                  <div onclick="openDualSignModal('Inj Actrapid Insulin', '13:00 PM')" class="cursor-pointer m3-cell-card bg-rose-50 border-2 border-rose-500 p-2 shadow-sm">
-                    <div class="flex justify-between items-center font-bold text-rose-950 font-mono-num">
-                      <span class="text-xs">13:00 PM</span>
-                      <span class="text-rose-800 font-black text-[11px] underline">⏱ Due (Lunch)</span>
+                <td class="p-2 align-top">
+                  <div onclick="openDualSignModal('Inj Actrapid Insulin', '13:00 PM')" class="m3-dose-card bg-rose-50/60 border border-rose-200/80 text-rose-800">
+                    <div class="flex justify-between items-center font-mono-num text-[11px]">
+                      <span>13:00 PM</span>
+                      <span class="font-medium underline">⏱ Due</span>
                     </div>
-                    <div class="text-[11px] text-rose-900 font-bold mt-0.5">Dual Signoff Required ▶</div>
-                    <div class="text-[10px] text-rose-700">Pre-lunch sugar: 168 mg/dL</div>
+                    <div class="text-[10px] font-medium mt-0.5 font-sans">Dual signoff required ▶</div>
+                    <div class="text-[9px] opacity-75 font-sans">Sugar: 168 mg/dL</div>
                   </div>
                 </td>
               </tr>
 
               <!-- ROW 7: Pantoprazole Route Switch (IV -> Oral) -->
-              <tr class="hover:bg-slate-50/60 transition">
-                <td class="p-3.5 sticky-drug-col bg-white border-r border-slate-300">
-                  <div class="font-extrabold text-slate-900 text-sm">Pantoprazole 40mg (PPI)</div>
-                  <div class="text-slate-600 text-xs">OD Morning Empty Stomach (07:30 AM)</div>
+              <tr class="hover:bg-slate-50/50 transition">
+                <td class="p-3 sticky-drug-col">
+                  <div class="font-semibold text-slate-900 text-sm">Pantoprazole 40mg (PPI)</div>
+                  <div class="text-slate-500 text-xs">OD Morning Empty Stomach (07:30 AM)</div>
                   <div class="mt-1">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-indigo-100 text-indigo-900 border border-indigo-300">Route Switch: IV ➔ Oral (Day 4)</span>
+                    <span class="px-1.5 py-0.2 rounded text-[10px] font-medium bg-slate-100 text-slate-700 border border-slate-200">Route Switch: IV ➔ Oral</span>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2 font-mono-num">
-                    <div class="flex justify-between font-bold text-emerald-950">
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given font-mono-num text-[11px]">
+                    <div class="flex justify-between">
                       <span>07:30 AM</span><span>✓ IV Bolus</span>
                     </div>
-                    <div class="text-[10px] text-slate-500 font-sans mt-0.5">Inj Pantoprazole 40mg IV</div>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2 font-mono-num">
-                    <div class="flex justify-between font-bold text-emerald-950">
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given font-mono-num text-[11px]">
+                    <div class="flex justify-between">
                       <span>07:30 AM</span><span>✓ IV Bolus</span>
                     </div>
-                    <div class="text-[10px] text-slate-500 font-sans mt-0.5">Inj Pantoprazole 40mg IV</div>
                   </div>
                 </td>
-                <td class="p-2.5 border-r border-slate-300 bg-blue-50/20 align-top">
-                  <div class="m3-cell-card bg-emerald-50 border border-emerald-300 p-2 font-mono-num">
-                    <div class="flex justify-between font-bold text-emerald-950">
+                <td class="p-2 border-r border-slate-100 align-top">
+                  <div class="m3-dose-card tone-given font-mono-num text-[11px]">
+                    <div class="flex justify-between">
                       <span>07:30 AM</span><span>✓ IV Bolus</span>
                     </div>
-                    <div class="text-[10px] text-slate-500 font-sans mt-0.5">Last IV dose</div>
                   </div>
                 </td>
                 <!-- Day 4 Oral Tablet -->
-                <td class="p-2.5 bg-emerald-50/15 align-top">
-                  <div class="m3-cell-card bg-indigo-50 border-2 border-indigo-400 p-2 font-mono-num">
-                    <div class="flex justify-between font-bold text-indigo-950">
-                      <span>07:30 AM</span><span class="text-indigo-900 font-black">✓ Oral Tab</span>
+                <td class="p-2 align-top">
+                  <div class="m3-dose-card tone-given font-mono-num text-[11px]">
+                    <div class="flex justify-between">
+                      <span>07:30 AM</span><span>✓ Oral Tab</span>
                     </div>
-                    <div class="text-[11px] text-indigo-900 font-bold font-sans mt-0.5">Tab Pantocid 40mg Oral</div>
-                    <div class="text-[10px] text-indigo-700 font-sans">Patient tolerating oral feeds</div>
+                    <div class="text-[9px] font-sans opacity-75 mt-0.5">Tab Pantocid (Oral)</div>
                   </div>
                 </td>
               </tr>
@@ -604,72 +636,72 @@
     </div>
 
     <!-- ==================== TAB 2: CONTINUOUS IV INFUSIONS ==================== -->
-    <div id="view-infusions" class="hidden space-y-4">
-      <div class="m3-card p-4 space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+    <div id="view-infusions" class="hidden space-y-3">
+      <div class="m3-surface p-4 space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
           <div>
-            <h3 class="text-base font-extrabold text-slate-900">Continuous IV Infusions & Drip Rate Management</h3>
-            <p class="text-xs text-slate-500">Tracks volumetric flow rate, infused volume, remaining fluid balance, and bag exchanges.</p>
+            <h3 class="text-sm font-semibold text-slate-800">Continuous IV Infusions & Drip Rate Management</h3>
+            <p class="text-xs text-slate-400">Tracks volumetric flow rate, infused volume, remaining fluid balance, and bag exchanges.</p>
           </div>
-          <button onclick="alert('Starting new IV Infusion Bag...')" class="px-3.5 py-1.5 bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs rounded-lg shadow-xs">
-            + Hang New Infusion Bag
+          <button onclick="alert('Starting new IV Infusion Bag...')" class="px-3 py-1 bg-slate-700 hover:bg-slate-800 text-white font-medium text-xs rounded-md shadow-xs">
+            + Hang New Bag
           </button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
           <!-- Infusion 1 -->
-          <div class="border border-emerald-300 bg-emerald-50/30 rounded-xl p-4 space-y-3 shadow-xs">
+          <div class="border border-emerald-100 bg-emerald-50/20 rounded-lg p-3.5 space-y-2.5">
             <div class="flex justify-between items-start">
               <div>
-                <span class="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-100 text-emerald-900 border border-emerald-300">ACTIVE INFUSION</span>
-                <h4 class="font-extrabold text-slate-900 text-base mt-1">Normal Saline 0.9% (1000 mL Bag)</h4>
-                <div class="text-xs text-slate-600">Peripheral IV (Left Forearm 20G) • Maintenance Hydration</div>
+                <span class="px-1.5 py-0.2 rounded text-[9px] font-medium bg-emerald-100/70 text-emerald-800">ACTIVE INFUSION</span>
+                <h4 class="font-semibold text-slate-800 text-sm mt-1">Normal Saline 0.9% (1000 mL Bag)</h4>
+                <div class="text-xs text-slate-400">Peripheral IV (Left Forearm 20G) • Maintenance</div>
               </div>
               <div class="text-right">
-                <span class="text-2xl font-black text-emerald-800 font-mono-num">75 mL/hr</span>
-                <span class="block text-[11px] text-slate-500 font-medium">~25 drops/min</span>
+                <span class="text-lg font-semibold text-emerald-800 font-mono-num">75 mL/hr</span>
+                <span class="block text-[10px] text-slate-400">~25 drops/min</span>
               </div>
             </div>
             <div>
-              <div class="flex justify-between text-xs font-bold mb-1">
-                <span class="text-slate-700">Volume Infused: <strong class="text-emerald-800 font-mono-num">650 mL</strong></span>
-                <span class="text-slate-700">Remaining: <strong class="text-emerald-800 font-mono-num">350 mL</strong> (~4h 40m left)</span>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-500">Infused: <strong class="text-emerald-800 font-mono-num font-medium">650 mL</strong></span>
+                <span class="text-slate-500">Remaining: <strong class="text-emerald-800 font-mono-num font-medium">350 mL</strong> (~4h 40m)</span>
               </div>
-              <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden border border-slate-300">
-                <div class="bg-emerald-500 h-3.5 rounded-full" style="width: 65%"></div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200/60">
+                <div class="bg-emerald-500/80 h-2 rounded-full" style="width: 65%"></div>
               </div>
             </div>
-            <div class="pt-2 border-t border-emerald-200 flex items-center justify-between text-xs text-slate-600">
+            <div class="pt-2 border-t border-emerald-50 flex items-center justify-between text-xs text-slate-400">
               <div>Started: Today at 06:00 AM by Nurse Rita</div>
-              <button onclick="alert('Titrating Rate: Adjusting rate...')" class="text-blue-700 font-bold hover:underline">Adjust Rate / Exchange Bag</button>
+              <button onclick="alert('Titrating Rate...')" class="text-blue-600 font-medium hover:underline">Adjust Rate</button>
             </div>
           </div>
 
           <!-- Infusion 2 -->
-          <div class="border border-rose-300 bg-rose-50/30 rounded-xl p-4 space-y-3 shadow-xs">
+          <div class="border border-rose-100 bg-rose-50/20 rounded-lg p-3.5 space-y-2.5">
             <div class="flex justify-between items-start">
               <div>
-                <span class="m3-high-alert-banner text-[10px] font-black px-2 py-0.5 rounded">HIGH-ALERT INFUSION</span>
-                <h4 class="font-extrabold text-slate-900 text-base mt-1">KCl 20 mEq in 500 mL DNS</h4>
-                <div class="text-xs text-slate-600">For severe hypokalemia (Serum K+: 2.9 mEq/L) • Pump Controlled</div>
+                <span class="px-1.5 py-0.2 rounded text-[9px] font-medium bg-rose-100/70 text-rose-800">HIGH-ALERT INFUSION</span>
+                <h4 class="font-semibold text-slate-800 text-sm mt-1">KCl 20 mEq in 500 mL DNS</h4>
+                <div class="text-xs text-slate-400">Severe hypokalemia (Serum K+: 2.9 mEq/L)</div>
               </div>
               <div class="text-right">
-                <span class="text-2xl font-black text-rose-800 font-mono-num">50 mL/hr</span>
-                <span class="block text-[11px] text-rose-700 font-bold">Max Capped: 10 mEq/hr</span>
+                <span class="text-lg font-semibold text-rose-800 font-mono-num">50 mL/hr</span>
+                <span class="block text-[10px] text-rose-600">Capped: 10 mEq/hr</span>
               </div>
             </div>
             <div>
-              <div class="flex justify-between text-xs font-bold mb-1">
-                <span class="text-slate-700">Volume Infused: <strong class="text-rose-800 font-mono-num">200 mL</strong></span>
-                <span class="text-slate-700">Remaining: <strong class="text-rose-800 font-mono-num">300 mL</strong> (~6h left)</span>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-500">Infused: <strong class="text-rose-800 font-mono-num font-medium">200 mL</strong></span>
+                <span class="text-slate-500">Remaining: <strong class="text-rose-800 font-mono-num font-medium">300 mL</strong> (~6h)</span>
               </div>
-              <div class="w-full bg-slate-200 rounded-full h-3.5 overflow-hidden border border-slate-300">
-                <div class="bg-rose-500 h-3.5 rounded-full" style="width: 40%"></div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200/60">
+                <div class="bg-rose-400/80 h-2 rounded-full" style="width: 40%"></div>
               </div>
             </div>
-            <div class="pt-2 border-t border-rose-200 flex items-center justify-between text-xs text-slate-600">
+            <div class="pt-2 border-t border-rose-50 flex items-center justify-between text-xs text-slate-400">
               <div>Dual Verified: Nurse Rita + Nurse Pooja S.</div>
-              <span class="font-bold text-rose-800">Infusion Pump #P-14</span>
+              <span class="text-slate-500">Pump #P-14</span>
             </div>
           </div>
         </div>
@@ -677,87 +709,87 @@
     </div>
 
     <!-- ==================== TAB 3: PRN / SOS & STAT ORDERS ==================== -->
-    <div id="view-prn-stat" class="hidden space-y-4">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div id="view-prn-stat" class="hidden space-y-3">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
 
         <!-- PRN Orders -->
-        <div class="m3-card p-4 space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="m3-surface p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
             <div>
-              <h3 class="text-base font-extrabold text-slate-900">PRN / SOS ("As Needed") Orders</h3>
-              <p class="text-xs text-slate-500">Enforces safety cooldown intervals to prevent accidental redosing.</p>
+              <h3 class="text-sm font-semibold text-slate-800">PRN / SOS ("As Needed") Orders</h3>
+              <p class="text-xs text-slate-400">Safety cooldown intervals prevent accidental redosing.</p>
             </div>
-            <button onclick="openPrnModal()" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-lg shadow-xs">
-              + Administer SOS Dose
+            <button onclick="openPrnModal()" class="px-2.5 py-1 bg-amber-700 hover:bg-amber-800 text-white font-medium text-xs rounded-md shadow-xs">
+              + Administer SOS
             </button>
           </div>
 
-          <div class="border-2 border-amber-300 bg-amber-50/40 rounded-xl p-3.5 space-y-2">
+          <div class="border border-amber-100 bg-amber-50/20 rounded-lg p-3 space-y-2">
             <div class="flex justify-between items-start">
               <div>
-                <span class="text-[10px] font-black px-2 py-0.5 rounded bg-amber-200 text-amber-950 border border-amber-300">COOLDOWN ACTIVE</span>
-                <h4 class="font-extrabold text-slate-900 text-sm mt-1">Inj Tramadol 50mg IV SOS</h4>
-                <div class="text-xs text-slate-700">Indication: <strong>Severe Post-op Pain (VAS > 6/10)</strong></div>
-                <div class="text-[11px] text-amber-900 font-bold mt-0.5">Safety Rule: Min interval 6 hours • Max 200mg/day</div>
+                <span class="text-[9px] font-medium px-1.5 py-0.2 rounded bg-amber-100/70 text-amber-900 border border-amber-200/60">COOLDOWN ACTIVE</span>
+                <h4 class="font-medium text-slate-800 text-xs mt-1">Inj Tramadol 50mg IV SOS</h4>
+                <div class="text-[11px] text-slate-500">Indication: <strong>Severe Pain (VAS > 6/10)</strong></div>
+                <div class="text-[10px] text-amber-800/80 mt-0.5">Min interval 6 hours • Max 200mg/day</div>
               </div>
-              <span class="text-xs font-bold text-amber-900 bg-amber-100 px-2 py-1 rounded-lg border border-amber-300">1 Given Today</span>
+              <span class="text-[10px] font-medium text-amber-900 bg-amber-100/70 px-2 py-0.5 rounded">1 Given Today</span>
             </div>
-            <div class="bg-white p-2.5 rounded-lg border border-amber-200 text-xs flex items-center justify-between font-mono-num">
-              <div>Last given: <strong>Today at 10:30 AM</strong> (Pain VAS: 8/10)</div>
-              <div class="text-rose-700 font-extrabold">⚠️ Locked until 16:30 (2h 15m left)</div>
+            <div class="bg-white p-2 rounded border border-amber-100 text-xs flex items-center justify-between font-mono-num">
+              <div class="text-slate-500">Last given: <strong>10:30 AM</strong> (VAS 8/10)</div>
+              <div class="text-rose-700 font-medium">⚠️ Locked until 16:30 (2h 15m)</div>
             </div>
           </div>
 
-          <div class="border border-emerald-300 bg-emerald-50/40 rounded-xl p-3.5 space-y-2">
+          <div class="border border-emerald-100 bg-emerald-50/20 rounded-lg p-3 space-y-2">
             <div class="flex justify-between items-start">
               <div>
-                <span class="text-[10px] font-black px-2 py-0.5 rounded bg-emerald-200 text-emerald-950 border border-emerald-300">AVAILABLE NOW</span>
-                <h4 class="font-extrabold text-slate-900 text-sm mt-1">Tab Paracetamol 650mg Oral SOS</h4>
-                <div class="text-xs text-slate-700">Indication: <strong>For Fever > 100.5°F or Pain</strong></div>
-                <div class="text-[11px] text-slate-600 font-medium mt-0.5">Safety Rule: Min interval 4 hours • Max 4 doses/day</div>
+                <span class="text-[9px] font-medium px-1.5 py-0.2 rounded bg-emerald-100/70 text-emerald-900 border border-emerald-200/60">AVAILABLE NOW</span>
+                <h4 class="font-medium text-slate-800 text-xs mt-1">Tab Paracetamol 650mg Oral SOS</h4>
+                <div class="text-[11px] text-slate-500">Indication: <strong>Fever > 100.5°F or Pain</strong></div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Min interval 4 hours • Max 4 doses/day</div>
               </div>
-              <button onclick="openPrnModal()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg shadow-xs">
+              <button onclick="openPrnModal()" class="px-2.5 py-1 bg-teal-700 hover:bg-teal-800 text-white font-medium text-xs rounded-md shadow-xs">
                 Log Dose
               </button>
             </div>
-            <div class="text-xs text-slate-500">Last given: Yesterday at 21:00 PM (> 15 hours ago). Safe to administer.</div>
+            <div class="text-[11px] text-slate-400">Last given: Yesterday at 21:00 PM (> 15 hours ago).</div>
           </div>
         </div>
 
         <!-- STAT Orders -->
-        <div class="m3-card p-4 space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="m3-surface p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
             <div>
-              <h3 class="text-base font-extrabold text-slate-900">STAT (Immediate One-Time) Orders</h3>
-              <p class="text-xs text-slate-500">Life-saving acute orders for urgent bedside execution.</p>
+              <h3 class="text-sm font-semibold text-slate-800">STAT (Immediate One-Time) Orders</h3>
+              <p class="text-xs text-slate-400">Urgent acute orders for bedside execution.</p>
             </div>
-            <span class="text-xs text-rose-700 font-black">🚨 Urgent Priority</span>
+            <span class="text-xs text-rose-700 font-medium">🚨 Urgent</span>
           </div>
 
-          <div class="border-2 border-rose-400 bg-rose-50/50 rounded-xl p-3.5 space-y-2">
+          <div class="border border-rose-100 bg-rose-50/20 rounded-lg p-3 space-y-2">
             <div class="flex justify-between items-start">
               <div>
-                <span class="bg-rose-600 text-white text-[10px] font-black px-2 py-0.5 rounded">STAT • PENDING EXECUTION</span>
-                <h4 class="font-black text-rose-950 text-base mt-1">Inj Hydrocortisone 100mg IV STAT</h4>
-                <div class="text-xs text-rose-900 font-bold">Ordered by Dr. Mehra at 14:05 PM • Acute Bronchospasm</div>
+                <span class="bg-rose-100/80 text-rose-800 border border-rose-200/60 text-[9px] font-medium px-1.5 py-0.2 rounded">STAT • PENDING</span>
+                <h4 class="font-semibold text-slate-800 text-sm mt-1">Inj Hydrocortisone 100mg IV STAT</h4>
+                <div class="text-[11px] text-slate-500">Ordered by Dr. Mehra at 14:05 PM • Bronchospasm</div>
               </div>
-              <button onclick="alert('Administering Hydrocortisone 100mg STAT immediately! Nurse Rita stamped.')" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-black text-xs rounded-lg shadow-md animate-pulse">
+              <button onclick="alert('Administering Hydrocortisone 100mg STAT immediately! Nurse Rita stamped.')" class="px-3 py-1.5 bg-rose-700 hover:bg-rose-800 text-white font-medium text-xs rounded-md shadow-xs">
                 Administer Now ▶
               </button>
             </div>
-            <div class="text-xs text-rose-700 font-bold">Ordered 10 mins ago • Requires immediate execution & nurse documentation</div>
+            <div class="text-[11px] text-rose-800/80 font-medium">Ordered 10 mins ago • Requires immediate nurse documentation</div>
           </div>
 
-          <div class="border border-slate-300 bg-slate-50 rounded-xl p-3.5 space-y-1">
+          <div class="border border-slate-200 bg-slate-50/50 rounded-lg p-3 space-y-1">
             <div class="flex justify-between items-start">
               <div>
-                <span class="bg-emerald-100 text-emerald-900 border border-emerald-300 text-[10px] font-black px-2 py-0.5 rounded">✓ FULFILLED</span>
-                <h4 class="font-bold text-slate-800 text-sm mt-1">Tab Sorbitrate 5mg Sublingual STAT</h4>
-                <div class="text-xs text-slate-500">Retrosternal chest discomfort protocol</div>
+                <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[9px] font-medium px-1.5 py-0.2 rounded">✓ FULFILLED</span>
+                <h4 class="font-medium text-slate-700 text-xs mt-1">Tab Sorbitrate 5mg Sublingual STAT</h4>
+                <div class="text-[11px] text-slate-400">Chest discomfort protocol</div>
               </div>
-              <span class="text-xs font-bold text-emerald-700 font-mono-num">Executed 10:15 AM</span>
+              <span class="text-[11px] font-medium text-emerald-700 font-mono-num">Executed 10:15 AM</span>
             </div>
-            <div class="text-xs text-slate-500">Administered on Oct 05 by Nurse Rita • Pain subsided in 10 mins</div>
+            <div class="text-[11px] text-slate-400">Administered Oct 05 by Nurse Rita • Pain subsided in 10 mins</div>
           </div>
         </div>
 
@@ -765,75 +797,74 @@
     </div>
 
     <!-- ==================== TAB 4: VERBAL / TELEPHONE ORDERS ==================== -->
-    <div id="view-verbal" class="hidden space-y-4">
-      <div class="m3-card p-4 space-y-3">
-        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+    <div id="view-verbal" class="hidden space-y-3">
+      <div class="m3-surface p-4 space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
           <div>
-            <h3 class="text-base font-extrabold text-slate-900">Emergency Telephone & Verbal Orders</h3>
-            <p class="text-xs text-slate-500">Enforces mandatory 24-hour doctor countersignature workflow for NABH/medicolegal compliance.</p>
+            <h3 class="text-sm font-semibold text-slate-800">Emergency Telephone & Verbal Orders</h3>
+            <p class="text-xs text-slate-400">Enforces mandatory 24-hour doctor countersignature workflow for medicolegal compliance.</p>
           </div>
-          <button onclick="alert('Doctor countersigned telephone order successfully!')" class="px-3.5 py-1.5 bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs rounded-lg shadow-xs">
-            Doctor Countersign All
+          <button onclick="alert('Doctor countersigned telephone order successfully!')" class="px-3 py-1 bg-slate-700 hover:bg-slate-800 text-white font-medium text-xs rounded-md shadow-xs">
+            Countersign All
           </button>
         </div>
 
-        <div class="border border-amber-300 bg-amber-50/30 rounded-xl p-4 space-y-3">
+        <div class="border border-amber-100 bg-amber-50/20 rounded-lg p-3.5 space-y-2.5">
           <div class="flex justify-between items-start">
             <div>
-              <div class="flex items-center gap-2">
-                <span class="bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded">TELEPHONE ORDER</span>
-                <span class="text-amber-950 font-bold text-xs font-mono-num">⚠️ Pending Doctor Countersignature (14h remaining)</span>
+              <div class="flex items-center gap-1.5">
+                <span class="bg-amber-100/70 text-amber-800 border border-amber-200/60 text-[9px] font-medium px-1.5 py-0.2 rounded">TELEPHONE ORDER</span>
+                <span class="text-amber-800 font-medium text-xs font-mono-num">⚠️ Countersignature pending (14h left)</span>
               </div>
-              <h4 class="font-extrabold text-slate-900 text-base mt-1.5">Tab Clonidine 0.1mg Oral STAT</h4>
-              <div class="text-xs text-slate-600">Administered at 02:45 AM during night shift for sudden hypertensive surge (BP 190/110 mmHg).</div>
+              <h4 class="font-semibold text-slate-800 text-sm mt-1">Tab Clonidine 0.1mg Oral STAT</h4>
+              <div class="text-xs text-slate-400">Administered at 02:45 AM for hypertensive surge (BP 190/110 mmHg).</div>
             </div>
-            <button onclick="alert('Dr. Mehra verified and signed the order.')" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-lg shadow-xs">
-              Doctor Sign Now
+            <button onclick="alert('Dr. Mehra verified and signed the order.')" class="px-3 py-1 bg-amber-700 hover:bg-amber-800 text-white font-medium text-xs rounded-md shadow-xs">
+              Doctor Sign
             </button>
           </div>
 
-          <div class="bg-white p-3 rounded-lg border border-amber-200 text-xs grid grid-cols-1 md:grid-cols-3 gap-2">
-            <div><strong>Prescribing Doctor:</strong> Dr. A. K. Mehra (via Telephone)</div>
-            <div><strong>Taken By:</strong> Nurse Priya S. (Read-back verified)</div>
-            <div><strong>Administered At:</strong> Oct 06 at 02:50 AM (BP dropped to 140/88)</div>
+          <div class="bg-white p-2.5 rounded border border-amber-100 text-xs grid grid-cols-1 md:grid-cols-3 gap-2 text-slate-500">
+            <div><strong>Prescriber:</strong> Dr. A. K. Mehra (Telephone)</div>
+            <div><strong>Taken By:</strong> Nurse Priya S. (Read-back)</div>
+            <div><strong>Administered:</strong> Oct 06 at 02:50 AM (BP 140/88)</div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- ==================== TAB 5: DISCONTINUED & ADR LOG ==================== -->
-    <div id="view-discontinued" class="hidden space-y-4">
-      <div class="m3-card p-4 space-y-3">
+    <div id="view-discontinued" class="hidden space-y-3">
+      <div class="m3-surface p-4 space-y-3">
         <div>
-          <h3 class="text-base font-extrabold text-slate-900">Discontinued Medications & Adverse Drug Reaction (ADR) Registry</h3>
-          <p class="text-xs text-slate-500">Every discontinued order preserves its exact historical intake grid while recording the clinical stop reason.</p>
+          <h3 class="text-sm font-semibold text-slate-800">Discontinued Medications & Adverse Drug Reaction (ADR) Log</h3>
+          <p class="text-xs text-slate-400">Preserves historical intake grids while recording the clinical stop reason.</p>
         </div>
 
-        <div class="space-y-3">
-          <div class="border border-rose-300 bg-rose-50/30 rounded-xl p-4 space-y-2">
+        <div class="space-y-2.5">
+          <div class="border border-rose-100 bg-rose-50/20 rounded-lg p-3 space-y-1.5">
             <div class="flex justify-between items-start">
               <div>
-                <span class="bg-rose-600 text-white text-[10px] font-black px-2 py-0.5 rounded">STOPPED DUE TO ADR</span>
-                <h4 class="font-extrabold text-slate-900 text-base mt-1 line-through">Tab Ciprofloxacin 500mg Oral BD</h4>
-                <div class="text-xs text-rose-900 font-extrabold mt-0.5">Stop Reason: Severe diffuse erythematous rash & itching 45 mins post-dose.</div>
-                <div class="text-xs text-slate-600 mt-1">Stopped on Day 2 (Oct 04) at 11:30 AM by Dr. Mehra • Added to permanent patient allergy registry.</div>
+                <span class="bg-rose-100/70 text-rose-800 border border-rose-200/60 text-[9px] font-medium px-1.5 py-0.2 rounded">STOPPED DUE TO ADR</span>
+                <h4 class="font-medium text-slate-700 text-sm mt-1 line-through">Tab Ciprofloxacin 500mg Oral BD</h4>
+                <div class="text-xs text-rose-800/90 font-medium mt-0.5">Stop Reason: Diffuse erythematous rash & itching 45 mins post-dose.</div>
+                <div class="text-xs text-slate-400 mt-0.5">Stopped on Day 2 (Oct 04) at 11:30 AM by Dr. Mehra • Added to permanent allergy registry.</div>
               </div>
-              <span class="text-xs font-black text-rose-900 bg-rose-100 border border-rose-300 px-2.5 py-1 rounded-lg">Allergy Flagged</span>
+              <span class="text-xs font-medium text-rose-800 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded">Allergy Flagged</span>
             </div>
-            <div class="bg-white p-2.5 rounded-lg border border-rose-200 text-xs text-slate-600">
-              <strong>Historical Intake Preserved:</strong> Given on Day 1 (08:00, 20:00) and Day 2 (08:00). All past records preserved in hospital audit logs.
+            <div class="bg-white p-2 rounded border border-rose-100 text-xs text-slate-500">
+              <strong>Historical Intake Preserved:</strong> Given on Day 1 (08:00, 20:00) and Day 2 (08:00). All past records preserved.
             </div>
           </div>
 
-          <div class="border border-slate-300 bg-slate-50 rounded-xl p-4 space-y-2">
+          <div class="border border-slate-200 bg-slate-50/50 rounded-lg p-3 space-y-1">
             <div class="flex justify-between items-start">
               <div>
-                <span class="bg-slate-200 text-slate-800 text-[10px] font-black px-2 py-0.5 rounded">COURSE COMPLETED</span>
-                <h4 class="font-bold text-slate-700 text-base mt-1 line-through">Inj Tramadol 50mg IV BD</h4>
-                <div class="text-xs text-slate-600 mt-0.5">Stop Reason: Post-operative pain stabilized; switched to oral Paracetamol SOS.</div>
-                <div class="text-xs text-slate-500 mt-1">Stopped on Day 3 (Oct 05) at 09:00 AM by Resident Doctor.</div>
+                <span class="bg-slate-100 text-slate-600 border border-slate-200 text-[9px] font-medium px-1.5 py-0.2 rounded">COMPLETED</span>
+                <h4 class="font-medium text-slate-700 text-sm mt-1 line-through">Inj Tramadol 50mg IV BD</h4>
+                <div class="text-xs text-slate-400">Stop Reason: Post-op pain stabilized; switched to oral Paracetamol SOS.</div>
               </div>
-              <span class="text-xs font-bold text-slate-600 bg-slate-200 px-2.5 py-1 rounded-lg">Discontinued</span>
+              <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded">Discontinued</span>
             </div>
           </div>
         </div>
@@ -843,30 +874,30 @@
   </div>
 
   <!-- MODAL: Standard Nurse Dose Administration -->
-  <div id="modalAdmin" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-5 border border-slate-300">
-      <div class="flex justify-between items-start pb-3 border-b border-slate-200">
+  <div id="modalAdmin" class="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-5 border border-slate-200">
+      <div class="flex justify-between items-start pb-3 border-b border-slate-100">
         <div>
-          <h3 class="font-extrabold text-slate-900 text-base" id="adminMedName">Administer Dose</h3>
-          <p class="text-xs text-slate-500 font-mono-num" id="adminSlotInfo">Oct 06, 2026 • 14:00 PM Slot</p>
+          <h3 class="font-semibold text-slate-800 text-base" id="adminMedName">Administer Dose</h3>
+          <p class="text-xs text-slate-400 font-mono-num" id="adminSlotInfo">Oct 06, 2026 • 14:00 PM Slot</p>
         </div>
-        <button onclick="closeModal('modalAdmin')" class="text-slate-400 hover:text-slate-600 font-bold text-xl">✕</button>
+        <button onclick="closeModal('modalAdmin')" class="text-slate-400 hover:text-slate-600 font-normal text-lg">✕</button>
       </div>
 
-      <div class="py-4 space-y-3.5">
+      <div class="py-3.5 space-y-3 text-xs">
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1.5">Administration Status</label>
-          <div class="grid grid-cols-4 gap-1.5 text-xs font-bold text-center">
-            <button type="button" onclick="setAdminAction('GIVEN')" id="btnG" class="py-2 rounded-lg border-2 border-emerald-600 bg-emerald-50 text-emerald-900">✓ Given</button>
-            <button type="button" onclick="setAdminAction('HELD')" id="btnH" class="py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50">⏸ Held</button>
-            <button type="button" onclick="setAdminAction('REFUSED')" id="btnR" class="py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50">✕ Refused</button>
-            <button type="button" onclick="setAdminAction('MISSED')" id="btnM" class="py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50">⏱ Missed</button>
+          <label class="block font-medium text-slate-600 mb-1">Administration Status</label>
+          <div class="grid grid-cols-4 gap-1.5 font-medium text-center">
+            <button type="button" onclick="setAdminAction('GIVEN')" id="btnG" class="py-1.5 rounded-md border border-emerald-200 bg-emerald-50 text-emerald-800 font-medium">✓ Given</button>
+            <button type="button" onclick="setAdminAction('HELD')" id="btnH" class="py-1.5 rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50">⏸ Held</button>
+            <button type="button" onclick="setAdminAction('REFUSED')" id="btnR" class="py-1.5 rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50">✕ Refused</button>
+            <button type="button" onclick="setAdminAction('MISSED')" id="btnM" class="py-1.5 rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50">⏱ Missed</button>
           </div>
         </div>
 
         <div id="reasonField" class="hidden">
-          <label class="block text-xs font-bold text-slate-700 mb-1">Mandatory Clinical Reason</label>
-          <select class="w-full text-xs border border-slate-300 rounded-lg p-2.5 bg-white">
+          <label class="block font-medium text-slate-600 mb-1">Clinical Reason</label>
+          <select class="w-full border border-slate-200 rounded-md p-2 bg-white text-slate-700">
             <option>Low Blood Pressure (SBP &lt; 90 mmHg)</option>
             <option>Hypoglycemia (GMR &lt; 70 mg/dL)</option>
             <option>NPO for Scheduled Scan / OT</option>
@@ -878,77 +909,77 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Nurse Notes & Observations</label>
-          <input type="text" placeholder="e.g. Swallowed with water; vitals normal" class="w-full text-xs border border-slate-300 rounded-lg p-2.5" />
+          <label class="block font-medium text-slate-600 mb-1">Nurse Notes & Observations</label>
+          <input type="text" placeholder="e.g. Swallowed with water; vitals normal" class="w-full border border-slate-200 rounded-md p-2 text-slate-700" />
         </div>
 
-        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs flex justify-between">
-          <span class="text-slate-500">Nurse Signature:</span>
-          <span class="font-extrabold text-slate-900">Nurse Rita M. (ID: NUR-1044)</span>
+        <div class="p-2.5 bg-slate-50 rounded-md border border-slate-200 flex justify-between">
+          <span class="text-slate-400">Nurse Signature:</span>
+          <span class="font-medium text-slate-700">Nurse Rita M. (ID: NUR-1044)</span>
         </div>
       </div>
 
-      <div class="flex justify-end gap-2 pt-3 border-t border-slate-200">
-        <button onclick="closeModal('modalAdmin')" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Cancel</button>
-        <button onclick="alert('Dose administration saved successfully!'); closeModal('modalAdmin');" class="px-4 py-2 text-xs font-extrabold bg-blue-700 hover:bg-blue-800 text-white rounded-lg shadow-xs">Save Administration</button>
+      <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+        <button onclick="closeModal('modalAdmin')" class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50 rounded-md">Cancel</button>
+        <button onclick="alert('Dose administration saved successfully!'); closeModal('modalAdmin');" class="px-3.5 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-900 text-white rounded-md shadow-xs">Save Dose</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL: High-Alert Dual Signoff Modal -->
-  <div id="modalDual" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-5 border border-rose-300">
-      <div class="flex justify-between items-start pb-3 border-b border-rose-100">
+  <div id="modalDual" class="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-5 border border-slate-200">
+      <div class="flex justify-between items-start pb-3 border-b border-slate-100">
         <div>
-          <span class="m3-high-alert-banner text-[10px] font-black px-2 py-0.5 rounded">HIGH-ALERT PROTOCOL</span>
-          <h3 class="font-extrabold text-slate-900 text-base mt-1">Dual-Nurse Verification Signoff</h3>
-          <p class="text-xs text-slate-500 font-mono-num">Inj Human Actrapid (Insulin) 8 Units SC</p>
+          <span class="bg-rose-50 text-rose-700 border border-rose-200/60 text-[9px] font-medium px-1.5 py-0.2 rounded">HIGH-ALERT PROTOCOL</span>
+          <h3 class="font-semibold text-slate-800 text-base mt-1">Dual-Nurse Verification Signoff</h3>
+          <p class="text-xs text-slate-400 font-mono-num">Inj Human Actrapid (Insulin) 8 Units SC</p>
         </div>
-        <button onclick="closeModal('modalDual')" class="text-slate-400 font-bold text-xl">✕</button>
+        <button onclick="closeModal('modalDual')" class="text-slate-400 font-normal text-lg">✕</button>
       </div>
-      <div class="py-4 space-y-3 text-xs">
-        <div class="p-2.5 bg-rose-50 border border-rose-200 rounded-lg text-rose-900">
-          <strong>NABH High-Risk Policy:</strong> High-alert medications (Insulin, Heparin, KCl, Narcotics) require a second independent licensed nurse to verify dose calculation and patient identity.
+      <div class="py-3.5 space-y-2.5 text-xs">
+        <div class="p-2 bg-rose-50/50 border border-rose-200/70 rounded-md text-rose-900">
+          <strong>Policy:</strong> High-alert medications require a second independent nurse verification.
         </div>
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Administering Nurse</label>
-          <input type="text" value="Nurse Rita M. (Logged In)" disabled class="w-full bg-slate-100 border border-slate-300 rounded-lg p-2.5 text-slate-700 font-bold" />
+          <label class="block font-medium text-slate-600 mb-1">Administering Nurse</label>
+          <input type="text" value="Nurse Rita M. (Logged In)" disabled class="w-full bg-slate-50 border border-slate-200 rounded-md p-2 text-slate-600" />
         </div>
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Witnessing Second Nurse</label>
-          <select class="w-full border border-slate-300 rounded-lg p-2.5 bg-white font-medium">
+          <label class="block font-medium text-slate-600 mb-1">Witnessing Second Nurse</label>
+          <select class="w-full border border-slate-200 rounded-md p-2 bg-white text-slate-700">
             <option>Nurse Pooja S. (ID: NUR-2201)</option>
             <option>Nurse Kevin D. (ID: NUR-3105)</option>
             <option>Nurse Tina V. (ID: NUR-8812)</option>
           </select>
         </div>
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Witness Security PIN</label>
-          <input type="password" placeholder="Enter 4-digit Witness PIN" class="w-full border border-slate-300 rounded-lg p-2.5 font-mono-num" />
+          <label class="block font-medium text-slate-600 mb-1">Witness Security PIN</label>
+          <input type="password" placeholder="Enter 4-digit PIN" class="w-full border border-slate-200 rounded-md p-2 font-mono-num" />
         </div>
       </div>
-      <div class="flex justify-end gap-2 pt-3 border-t border-slate-200">
-        <button onclick="closeModal('modalDual')" class="px-4 py-2 text-xs font-semibold text-slate-600">Cancel</button>
-        <button onclick="alert('Dual Verification Complete! Dose signed by Nurse Rita & witnessed by Nurse Pooja.'); closeModal('modalDual');" class="px-4 py-2 text-xs font-black bg-rose-600 hover:bg-rose-700 text-white rounded-lg shadow-xs">Authorize & Administer</button>
+      <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+        <button onclick="closeModal('modalDual')" class="px-3 py-1.5 text-xs font-medium text-slate-600">Cancel</button>
+        <button onclick="alert('Dual Verification Complete! Dose signed by Nurse Rita & witnessed by Nurse Pooja.'); closeModal('modalDual');" class="px-3.5 py-1.5 text-xs font-medium bg-rose-700 hover:bg-rose-800 text-white rounded-md shadow-xs">Authorize & Sign</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL: Doctor Modify Order (BD to TDS) -->
-  <div id="modalModify" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-5 border border-slate-300">
-      <div class="flex justify-between items-start pb-3 border-b border-slate-200">
+  <div id="modalModify" class="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-lg max-w-lg w-full p-5 border border-slate-200">
+      <div class="flex justify-between items-start pb-3 border-b border-slate-100">
         <div>
-          <h3 class="font-extrabold text-slate-900 text-base" id="modifyMedTitle">Modify Medication Order</h3>
-          <p class="text-xs text-slate-500">Immutable Revision: Old order closes; new linked order starts.</p>
+          <h3 class="font-semibold text-slate-800 text-base" id="modifyMedTitle">Modify Medication Order</h3>
+          <p class="text-xs text-slate-400">Immutable Lineage: Current order closes; new child order starts.</p>
         </div>
-        <button onclick="closeModal('modalModify')" class="text-slate-400 font-bold text-xl">✕</button>
+        <button onclick="closeModal('modalModify')" class="text-slate-400 font-normal text-lg">✕</button>
       </div>
-      <div class="py-4 space-y-3 text-xs">
-        <div class="grid grid-cols-2 gap-3">
+      <div class="py-3.5 space-y-2.5 text-xs">
+        <div class="grid grid-cols-2 gap-2.5">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">New Frequency</label>
-            <select class="w-full border border-slate-300 rounded-lg p-2.5 bg-white font-medium">
+            <label class="block font-medium text-slate-600 mb-1">New Frequency</label>
+            <select class="w-full border border-slate-200 rounded-md p-2 bg-white text-slate-700">
               <option selected>TDS (Thrice a day: 8am, 2pm, 8pm)</option>
               <option>BD (Twice a day: 8am, 8pm)</option>
               <option>QID (Four times a day)</option>
@@ -956,21 +987,21 @@
             </select>
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Dosage / Strength</label>
-            <input type="text" value="625 mg" class="w-full border border-slate-300 rounded-lg p-2.5 font-bold" />
+            <label class="block font-medium text-slate-600 mb-1">Dosage / Strength</label>
+            <input type="text" value="625 mg" class="w-full border border-slate-200 rounded-md p-2 text-slate-700" />
           </div>
         </div>
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Clinical Reason for Modification</label>
-          <input type="text" value="Persistent fever spike; intensifying antibiotic coverage" class="w-full border border-slate-300 rounded-lg p-2.5" />
+          <label class="block font-medium text-slate-600 mb-1">Reason for Modification</label>
+          <input type="text" value="Persistent fever spike; intensifying antibiotic coverage" class="w-full border border-slate-200 rounded-md p-2 text-slate-700" />
         </div>
-        <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-900">
-          <strong>Audit Notice:</strong> This action creates Order Version #2. Past administrations (Days 1–2) remain permanently recorded under Version #1.
+        <div class="p-2.5 bg-blue-50/50 border border-blue-100 rounded-md text-blue-900 text-[11px]">
+          <strong>Notice:</strong> This action creates Order Version #2. Past administrations (Days 1–2) remain permanently recorded under Version #1.
         </div>
       </div>
-      <div class="flex justify-end gap-2 pt-3 border-t border-slate-200">
-        <button onclick="closeModal('modalModify')" class="px-4 py-2 text-xs font-semibold text-slate-600">Cancel</button>
-        <button onclick="alert('Order modified successfully! Future columns updated with in-row transition marker.'); closeModal('modalModify');" class="px-4 py-2 text-xs font-black bg-blue-700 hover:bg-blue-800 text-white rounded-lg shadow-xs">Save Modified Order</button>
+      <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+        <button onclick="closeModal('modalModify')" class="px-3 py-1.5 text-xs font-medium text-slate-600">Cancel</button>
+        <button onclick="alert('Order modified successfully! Future columns updated with in-row transition marker.'); closeModal('modalModify');" class="px-3.5 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-900 text-white rounded-md shadow-xs">Save Order</button>
       </div>
     </div>
   </div>
@@ -983,10 +1014,10 @@
         const btn = document.getElementById('tab-' + v);
         if (v === tab) {
           el.classList.remove('hidden');
-          btn.className = 'px-4 py-2 rounded-xl bg-blue-700 text-white shadow-sm flex items-center gap-2';
+          btn.className = 'px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-300 text-slate-800 font-medium shadow-xs flex items-center gap-1.5';
         } else {
           el.classList.add('hidden');
-          btn.className = 'px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center gap-2';
+          btn.className = 'px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-1.5';
         }
       });
     }
@@ -1029,16 +1060,16 @@
       const m = document.getElementById('btnM');
       const reason = document.getElementById('reasonField');
 
-      [g, h, r, m].forEach(b => b.className = 'py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50');
+      [g, h, r, m].forEach(b => b.className = 'py-1.5 rounded-md border border-slate-200 text-slate-600 hover:bg-slate-50 font-normal');
 
       if (act === 'GIVEN') {
-        g.className = 'py-2 rounded-lg border-2 border-emerald-600 bg-emerald-50 text-emerald-900';
+        g.className = 'py-1.5 rounded-md border border-emerald-200 bg-emerald-50 text-emerald-800 font-medium';
         reason.classList.add('hidden');
       } else {
         reason.classList.remove('hidden');
-        if (act === 'HELD') h.className = 'py-2 rounded-lg border-2 border-amber-500 bg-amber-50 text-amber-900';
-        if (act === 'REFUSED') r.className = 'py-2 rounded-lg border-2 border-rose-500 bg-rose-50 text-rose-900';
-        if (act === 'MISSED') m.className = 'py-2 rounded-lg border-2 border-purple-500 bg-purple-50 text-purple-900';
+        if (act === 'HELD') h.className = 'py-1.5 rounded-md border border-amber-200 bg-amber-50 text-amber-800 font-medium';
+        if (act === 'REFUSED') r.className = 'py-1.5 rounded-md border border-rose-200 bg-rose-50 text-rose-800 font-medium';
+        if (act === 'MISSED') m.className = 'py-1.5 rounded-md border border-purple-200 bg-purple-50 text-purple-800 font-medium';
       }
     }
   </script>
